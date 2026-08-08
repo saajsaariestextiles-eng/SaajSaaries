@@ -1,0 +1,1107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saaj Saaries Textiles — Billing & Delivery</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230f766e'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'%3ES%3C/text%3E%3C/svg%3E" />
+<meta name="theme-color" content="#0f766e" />
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--teal:#0f766e;--teal-d:#0b5e57;--bg:#f5f5f5;--card:#fff;--line:#e2e8f0;--muted:#64748b;--ink:#0f172a}
+  html,body{height:100%}
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  button{font-family:inherit;cursor:pointer}
+  .app{display:flex;min-height:100vh}
+  /* Sidebar */
+  .side{width:230px;background:var(--teal);color:#fff;display:flex;flex-direction:column;flex-shrink:0}
+  .brand{padding:18px 18px 14px;border-bottom:1px solid rgba(255,255,255,.15)}
+  .brand h1{font-size:16px;line-height:1.3}
+  .brand p{font-size:11px;opacity:.8;margin-top:2px}
+  .nav{padding:10px 8px;flex:1;overflow:auto}
+  .nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;color:#e6fffb;padding:10px 12px;border-radius:8px;font-size:14px;margin-bottom:4px}
+  .nav button:hover{background:rgba(255,255,255,.12)}
+  .nav button.active{background:#fff;color:var(--teal);font-weight:600}
+  .nav .ic{width:18px;text-align:center}
+  .side .foot{padding:12px 16px;font-size:11px;opacity:.7;border-top:1px solid rgba(255,255,255,.15)}
+  /* Main */
+  .main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .topbar{height:56px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0}
+  .topbar h2{font-size:17px}
+  .top-actions{display:flex;gap:8px;align-items:center}
+  .btn{background:var(--teal);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600}
+  .btn:hover{background:var(--teal-d)}
+  .btn.ghost{background:#e2e8f0;color:var(--ink)}
+  .btn.ghost:hover{background:#cbd5e1}
+  .btn.danger{background:#dc2626}
+  .btn.danger:hover{background:#b91c1c}
+  .btn.sm{padding:5px 10px;font-size:12px}
+  .save-pill{font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:#f1f5f9;color:#64748b;white-space:nowrap}
+  .save-pill.ok{background:#dcfce7;color:#166534}
+  .save-pill.busy{background:#fef9c3;color:#854d0e}
+  .save-pill.warn{background:#fee2e2;color:#991b1b}
+  .view{padding:20px;overflow:auto;flex:1}
+  /* Cards */
+  .grid{display:grid;gap:14px}
+  .cards{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card .k{font-size:12px;color:var(--muted)}
+  .card .v{font-size:24px;font-weight:700;margin-top:4px}
+  .card .v.sm{font-size:18px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .panel h3{font-size:15px;margin-bottom:12px}
+  /* Table */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+  tr:hover td{background:#f8fafc}
+  td .actions{display:flex;gap:6px;justify-content:flex-end}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600}
+  .tag.paid{background:#dcfce7;color:#166534}
+  .tag.unpaid{background:#fee2e2;color:#991b1b}
+  .tag.partial{background:#fef9c3;color:#854d0e}
+  .tag.quot{background:#e0e7ff;color:#3730a3}
+  .empty{text-align:center;color:var(--muted);padding:40px 0}
+  /* Modal */
+  .overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:flex-start;justify-content:center;padding:24px;overflow:auto;z-index:1000}
+  .overlay.show{display:flex}
+  .modal{background:#fff;border-radius:14px;width:100%;max-width:720px;margin:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .modal.wide{max-width:880px}
+  .modal header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+  .modal header h3{font-size:16px}
+  .modal .body{padding:18px 20px;max-height:72vh;overflow:auto}
+  .modal footer{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}
+  .x{border:none;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer}
+  /* Form */
+  label{display:block;font-size:12px;font-weight:600;color:#334155;margin:12px 0 5px}
+  input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit}
+  textarea{resize:vertical;min-height:60px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+  .items{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:6px}
+  .items .ih{display:grid;grid-template-columns:2.4fr 1fr 1fr 1fr 36px;gap:8px;padding:8px 10px;background:#f1f5f9;font-size:11px;font-weight:700;color:#475569}
+  .items .ir{display:grid;grid-template-columns:2.4fr 1fr 1fr 1fr 36px;gap:8px;padding:8px 10px;border-top:1px solid var(--line);align-items:center}
+  .items .ir input{padding:7px 9px;font-size:13px}
+  .items .ir .amt{font-size:13px;padding-top:8px;font-weight:600;text-align:right}
+  .items .ir .del{border:none;background:#fee2e2;color:#b91c1c;border-radius:6px;height:34px;font-size:16px}
+  .additem{margin-top:8px}
+  .totals{margin-top:14px;margin-left:auto;width:280px;font-size:14px}
+  .totals div{display:flex;justify-content:space-between;padding:4px 0}
+  .totals .grand{border-top:2px solid var(--ink);margin-top:6px;padding-top:8px;font-weight:700;font-size:16px}
+  /* PIN */
+  .pin-wrap{position:fixed;inset:0;background:var(--teal);display:flex;align-items:center;justify-content:center;z-index:2000}
+  .pin-box{background:#fff;border-radius:16px;padding:30px 28px;width:320px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .pin-box h2{color:var(--teal);margin-bottom:6px}
+  .pin-box p{font-size:13px;color:var(--muted);margin-bottom:18px}
+  .pin-box input{text-align:center;letter-spacing:8px;font-size:20px;margin-bottom:12px}
+  .pin-err{color:#dc2626;font-size:12px;min-height:16px;margin-bottom:8px}
+  /* Print document + on-screen preview */
+  #print-area{display:none}
+  .preview-doc{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fff}
+  @media print{
+    body *{visibility:hidden !important}
+    #print-area,#print-area *{visibility:visible !important}
+    #print-area{display:block !important;position:absolute;left:0;top:0;width:100%}
+    @page{margin:14mm}
+  }
+  .doc{font-family:Inter,Arial,sans-serif;color:#111;max-width:800px;margin:0 auto;padding:8px 4px}
+  .doc .dh{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--teal);padding-bottom:10px;margin-bottom:14px}
+  .doc .dh .co{font-size:20px;font-weight:800;color:var(--teal)}
+  .doc .dh .meta{text-align:right;font-size:12px;color:#333}
+  .doc .pt{display:flex;justify-content:space-between;font-size:13px;margin-bottom:14px}
+  .doc .pt b{display:block;color:#475569;font-size:11px;text-transform:uppercase;letter-spacing:.03em;font-weight:700}
+  .doc table{border-collapse:collapse;width:100%;margin:10px 0}
+  .doc th,.doc td{border:1px solid #cbd5e1;padding:7px 9px;font-size:12px;text-align:left}
+  .doc th{background:#f0fdfa}
+  .doc .rt{width:280px;margin-left:auto;font-size:13px;margin-top:8px}
+  .doc .rt div{display:flex;justify-content:space-between;padding:3px 0}
+  .doc .rt .g{border-top:2px solid #111;margin-top:5px;padding-top:5px;font-weight:800;font-size:15px}
+  .doc .words{font-size:12px;font-style:italic;color:#334155;margin-top:6px;text-align:right}
+  .doc .notes{font-size:12px;color:#475569;margin-top:14px}
+  .doc .notes ul{margin:4px 0 0 18px;padding:0}
+  .doc .notes li{margin:1px 0}
+  .doc .bankbox{border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:12px;color:#334155;background:#f8fafc;margin-top:14px}
+  .doc .sig{display:flex;justify-content:space-between;margin-top:36px;font-size:12px;color:#475569}
+  @media(max-width:720px){.side{width:64px}.brand p,.nav button span{display:none}.row,.row3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="pin-wrap" id="pin-wrap">
+  <div class="pin-box">
+    <h2>Saaj Saaries Textiles</h2>
+    <p>Enter Admin PIN to continue</p>
+    <input id="pin-input" type="password" inputmode="numeric" maxlength="12" placeholder="••••" autocomplete="off" autocapitalize="none" spellcheck="false" />
+    <div class="pin-err" id="pin-err"></div>
+    <button class="btn" style="width:100%" id="pin-submit">Unlock</button>
+  </div>
+</div>
+
+<div class="app" id="app" style="display:none">
+  <aside class="side">
+    <div class="brand">
+      <h1>Saaj Saaries</h1>
+      <p>Tardal, Ichalkaranji</p>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-view="dashboard" class="active"><span class="ic">▦</span><span>Dashboard</span></button>
+      <button data-view="parties"><span class="ic">☺</span><span>Parties</span></button>
+      <button data-view="products"><span class="ic">❖</span><span>Products</span></button>
+      <button data-view="bills"><span class="ic">▣</span><span>Bills / Tax Invoices</span></button>
+      <button data-view="quotations"><span class="ic">✎</span><span>Quotations</span></button>
+      <button data-view="challans"><span class="ic">➤</span><span>Delivery Challans</span></button>
+      <button data-view="payments"><span class="ic">₹</span><span>Payments</span></button>
+      <button data-view="settings"><span class="ic">⚙</span><span>Settings</span></button>
+    </nav>
+    <div class="foot">🔒 AES‑256 encrypted · real‑time sync via Firebase</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h2 id="view-title">Dashboard</h2>
+      <div class="top-actions">
+        <span class="save-pill" id="save-status">● Starting…</span>
+        <button class="btn ghost sm" id="btn-backup">⬇ Backup (JSON)</button>
+        <button class="btn ghost sm" id="btn-restore">⬆ Restore (JSON)</button>
+        <button class="btn ghost sm" id="btn-logout">Lock</button>
+      </div>
+    </div>
+    <div class="view" id="view"></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div id="print-area"></div>
+<input type="file" id="restore-file" accept="application/json" style="display:none" />
+
+<script>
+/* ---------------- Helpers ---------------- */
+const DB_KEY = 'saaj_saaries_billing_v1';   // encrypted vault (AES-256) in localStorage
+const AUTH_KEY = 'saaj_auth_session_v1';    // session-scoped decryption key (cleared when browser closes)
+const DEFAULT_PIN = '9696';                 // entry PIN — change it in Settings
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const money = n => '₹' + (Number(n)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = () => new Date().toISOString().slice(0,10);
+const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '';
+const statusTag = st => st==='paid'?'<span class="tag paid">Paid</span>': st==='partial'?'<span class="tag partial">Partial</span>':'<span class="tag unpaid">Unpaid</span>';
+/* safe storage wrappers (fall back to in-memory if localStorage is blocked, e.g. sandboxed previews) */
+const store = { get:k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+                set:(k,v)=>{ try{ localStorage.setItem(k,v); }catch(e){} },
+                remove:k=>{ try{ localStorage.removeItem(k); }catch(e){} } };
+const sstore = { get:k=>{ try{ return sessionStorage.getItem(k); }catch(e){ return null; } },
+                 set:(k,v)=>{ try{ sessionStorage.setItem(k,v); }catch(e){} },
+                 remove:k=>{ try{ sessionStorage.removeItem(k); }catch(e){} } };
+
+function defaults(){
+  return {
+    settings:{businessName:'Saaj Saaries Textiles', address:'Tardal, Ichalkaranji, Maharashtra', gstin:'', phone:'', pin:DEFAULT_PIN,
+      billPrefix:'INV', billCounter:1, quotePrefix:'QUO', quoteCounter:1, challanPrefix:'CHL', challanCounter:1, gstPercent:5,
+      accountName:'Saaj Saaries Textiles', bankName:'', accountNo:'', ifsc:'', upi:'',
+      defaultTerms:'1. Goods once sold will not be taken back or exchanged.\n2. Interest @18% p.a. will be charged on delayed payments.\n3. All disputes subject to Ichalkaranji jurisdiction.\n4. E & O E.'},
+    parties:[{id:'p1',name:'Mahatrudr',address:'',phone:'',gstin:''},
+            {id:'p2',name:'Dilip Mangate',address:'',phone:'',gstin:''},
+            {id:'p3',name:'DP Traders',address:'',phone:'',gstin:''}],
+    products:[{id:'pr1',name:'Cotton Saree',hsn:'5208',unit:'pcs',rate:450},
+              {id:'pr2',name:'Silk Saree',hsn:'5007',unit:'pcs',rate:1850},
+              {id:'pr3',name:'Handloom Saree',hsn:'5208',unit:'pcs',rate:480},
+              {id:'pr4',name:'Dress Material',hsn:'5209',unit:'set',rate:320}],
+    bills:[], quotations:[], challans:[], payments:[]
+  };
+}
+
+/* ---------------- Encryption — AES-256-GCM, key derived from the PIN (PBKDF2) ---------------- */
+/* Nothing sensitive is ever written to disk or to the cloud in plaintext.
+   The whole app state lives inside an encrypted "vault". A wrong PIN simply
+   fails to decrypt it, so data stays unreadable. */
+const enc = new TextEncoder(), dec = new TextDecoder();
+const bufToB64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const b64ToBuf = b64 => Uint8Array.from(atob(b64), c=>c.charCodeAt(0)).buffer;
+async function deriveKey(pin, saltB64){
+  const base = await crypto.subtle.importKey('raw', enc.encode('saaj-saaries::'+pin), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2', salt:b64ToBuf(saltB64), iterations:150000, hash:'SHA-256'},
+                                 base, {name:'AES-GCM', length:256}, true, ['encrypt','decrypt']);
+}
+async function encryptVault(obj, key, saltB64){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode(JSON.stringify(obj)));
+  return {v:1, salt:saltB64, iv:bufToB64(iv.buffer), ct:bufToB64(ct)};
+}
+async function decryptVault(bundle, key){
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:b64ToBuf(bundle.iv)}, key, b64ToBuf(bundle.ct));
+  return JSON.parse(dec.decode(pt));   // throws if the key (PIN) is wrong
+}
+
+/* ---------------- Firebase Realtime Database (real-time cloud sync) ---------------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyDcqvjt2gnztCv-GKkA4-Xo0rAsfB_BeLs",
+  authDomain: "saaj-saaries.firebaseapp.com",
+  databaseURL: "https://saaj-saaries-default-rtdb.firebaseio.com",
+  projectId: "saaj-saaries",
+  storageBucket: "saaj-saaries.firebasestorage.app",
+  messagingSenderId: "810345516090",
+  appId: "1:810345516090:web:aa9abc7014861e94d63903",
+  measurementId: "G-QZJE3PG27J"
+};
+const RTDB_PATH = 'billing/vault';   // one shared encrypted vault for all your devices
+let fbApp=null, fbDB=null, fbMod=null, firebaseOk=false;
+let vaultRemote=null;
+async function loadFirebase(){
+  try{
+    const appMod = await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js');
+    fbMod       = await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js');
+    fbApp = appMod.initializeApp(firebaseConfig);
+    fbDB  = fbMod.getDatabase(fbApp);
+    try{ // anonymous sign-in satisfies the usual "auth != null" database rules
+      const authMod = await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js');
+      await authMod.signInAnonymously(authMod.getAuth(fbApp));
+    }catch(e){ console.warn('Anonymous sign-in unavailable — relying on open DB rules.', e); }
+    firebaseOk = true;
+    return true;
+  }catch(e){
+    console.warn('Firebase could not load — running in local-only encrypted mode.', e);
+    firebaseOk = false;
+    return false;
+  }
+}
+async function fetchRemote(){
+  try{
+    const snap = await fbMod.get(fbMod.ref(fbDB, RTDB_PATH));
+    return snap.exists() ? snap.val() : null;
+  }catch(e){ console.warn('Firebase read failed:', e); return null; }
+}
+async function pushRemote(bundle){
+  await fbMod.set(fbMod.ref(fbDB, RTDB_PATH),
+    {v:1, updatedAt:bundle.updatedAt, vault:{v:bundle.v, salt:bundle.salt, iv:bundle.iv, ct:bundle.ct}});
+}
+function subscribeRemote(cb){
+  fbMod.onValue(fbMod.ref(fbDB, RTDB_PATH), snap=>{
+    if(snap.exists()) cb(snap.val());
+  }, err=>{ setSaveStatus('offline'); });
+}
+
+/* ---------------- State, encrypted save & sync ---------------- */
+/* Repair records saved by the old buggy version (missing IDs) */
+function ensureIds(arr){
+  (arr||[]).forEach(x => { if(x && typeof x==='object' && !x.id) x.id = uid(); });
+  return arr||[];
+}
+function mergeData(s){
+  const d = defaults();
+  if(!s || typeof s !== 'object') return d;
+  d.settings = Object.assign({}, d.settings, s.settings || {});
+  ['parties','products','bills','quotations','challans','payments'].forEach(k => { if(Array.isArray(s[k])) d[k] = ensureIds(s[k]); });
+  return d;
+}
+let state = defaults();
+let currentKey = null, currentSalt = null;   // decryption key — only ever held in memory while unlocked
+let vaultLocal = null;                        // encrypted bundle from this browser
+let _dirty=false, _saving=false, _again=false, _timer=null;
+let _lastLocalAt = 0;                         // updatedAt of the newest encrypted bundle we hold
+let _currentView = 'dashboard';
+
+function save(){                              // encrypt + write locally + push to Firebase (debounced)
+  _dirty = true;
+  setSaveStatus('busy');
+  if(_saving){ _again = true; return; }
+  clearTimeout(_timer);
+  _timer = setTimeout(flushSave, 450);
+}
+async function flushSave(){
+  if(_saving){ _again = true; return; }
+  if(!currentKey || !state){ _dirty=false; return; }
+  _saving = true;
+  try{
+    const bundle = await encryptVault(state, currentKey, currentSalt);
+    bundle.updatedAt = Date.now();
+    _lastLocalAt = bundle.updatedAt;
+    vaultLocal = bundle;
+    store.set(DB_KEY, JSON.stringify(bundle));
+    if(firebaseOk){
+      try{ await pushRemote(bundle); setSaveStatus('ok', new Date(bundle.updatedAt)); }
+      catch(e){ console.warn('Cloud push failed:', e); setSaveStatus('offline'); }
+    } else setSaveStatus('offline');
+    _dirty = false;
+  }catch(e){
+    console.error('Save failed', e);
+    setSaveStatus('offline');
+  }finally{
+    _saving = false;
+    if(_again){ _again = false; save(); }
+  }
+}
+window.addEventListener('pagehide', ()=>{ if(_dirty && currentKey) flushSave(); });
+function setSaveStatus(mode, when){
+  const el = document.getElementById('save-status'); if(!el) return;
+  const t = when ? ' · ' + when.toLocaleTimeString('en-IN') : '';
+  if(mode==='busy'){ el.className='save-pill busy'; el.textContent='● Saving…'; el.title='Encrypting (AES-256) and saving locally + to Firebase'; }
+  else if(mode==='ok'){ el.className='save-pill ok'; el.textContent='✓ Saved & synced'+t; el.title='Encrypted in this browser and synced to Firebase Realtime Database'; }
+  else if(mode==='cloud'){ el.className='save-pill ok'; el.textContent='⇄ Cloud update received'+t; el.title='Newer encrypted data arrived from Firebase and was loaded'; }
+  else if(mode==='offline'){ el.className='save-pill warn'; el.textContent='⚠ Cloud offline — saved locally'; el.title='Firebase unreachable. Data stays encrypted in this browser and syncs when the cloud is back.'; }
+  else if(mode==='mismatch'){ el.className='save-pill warn'; el.textContent='⚠ Cloud PIN mismatch'; el.title='Cloud data could not be decrypted with the current PIN (it may have been changed on another device). Local data kept.'; }
+}
+const S = () => state.settings;
+const partyName = id => { const p=state.parties.find(x=>x.id===id); return p?p.name:'—'; };
+
+/* ---------------- Auth / PIN (9696) — encrypted unlock ----------------
+   The data is decrypted ONLY when the correct PIN is entered. A wrong PIN
+   makes decryption fail, so the PIN and all other information stay encrypted
+   and unreadable. After 5 wrong attempts the PIN screen locks for a while. */
+const MAX_ATTEMPTS = 5;
+let pinAttempts  = Number(store.get('saaj_pin_attempts')||0);
+let pinLockUntil = Number(store.get('saaj_pin_lock_until')||0);
+let lockTimer = null;
+
+function showPin(){
+  document.getElementById('pin-wrap').style.display='flex';
+  document.getElementById('app').style.display='none';
+  const inp=document.getElementById('pin-input');
+  inp.value=''; inp.disabled=false;
+  document.getElementById('pin-submit').disabled=false;
+  if(pinLockUntil > Date.now()) startLockTimer();
+  else document.getElementById('pin-err').textContent='';
+  inp.focus();
+}
+function showApp(){
+  document.getElementById('pin-wrap').style.display='none';
+  document.getElementById('app').style.display='flex';
+  setView(_currentView);
+}
+async function saveSession(){
+  sstore.set(AUTH_KEY, JSON.stringify({salt:currentSalt,
+    key:bufToB64(await crypto.subtle.exportKey('raw', currentKey))}));
+}
+function failAttempt(){
+  pinAttempts++;
+  store.set('saaj_pin_attempts', String(pinAttempts));
+  sstore.remove(AUTH_KEY);                       // never keep a session after a wrong PIN
+  const errEl=document.getElementById('pin-err');
+  const left=MAX_ATTEMPTS-pinAttempts;
+  if(left<=0){
+    const lockMs=Math.min(15*60*1000, 30*1000*Math.pow(2, Math.max(0, Math.floor((pinAttempts-1)/MAX_ATTEMPTS))));
+    pinLockUntil=Date.now()+lockMs;
+    store.set('saaj_pin_lock_until', String(pinLockUntil));
+    pinAttempts=0; store.set('saaj_pin_attempts','0');
+    errEl.textContent='Too many wrong attempts — locked for '+Math.round(lockMs/1000)+' seconds.';
+    startLockTimer();
+  } else {
+    errEl.textContent='Wrong PIN. '+left+' attempt'+(left>1?'s':'')+' left.';
+  }
+  document.getElementById('pin-input').value='';
+}
+function startLockTimer(){
+  const inp=document.getElementById('pin-input'), btn=document.getElementById('pin-submit'), errEl=document.getElementById('pin-err');
+  const tick=()=>{
+    const left=pinLockUntil-Date.now();
+    if(left<=0){ clearInterval(lockTimer); inp.disabled=false; btn.disabled=false; errEl.textContent=''; return; }
+    inp.disabled=true; btn.disabled=true;
+    errEl.textContent='🔒 Locked — try again in '+Math.ceil(left/1000)+'s';
+  };
+  clearInterval(lockTimer); tick(); lockTimer=setInterval(tick,1000);
+}
+async function tryPin(){
+  const v=document.getElementById('pin-input').value.trim();
+  const errEl=document.getElementById('pin-err');
+  if(!v){ errEl.textContent='Enter the PIN.'; return; }
+  if(pinLockUntil > Date.now()){ startLockTimer(); return; }
+  const local = vaultLocal;
+  const remote = vaultRemote && vaultRemote.vault;
+  const legacy = local && !local.salt ? local : null;   // plaintext data from the old version → migrate on first unlock
+  const bundle = (local && local.salt ? local : null) || remote;
+  try{
+    if(legacy){
+      if(v!==DEFAULT_PIN) throw new Error('wrong');
+      state = mergeData(legacy); state.settings.pin = v;
+      currentSalt = bufToB64(crypto.getRandomValues(new Uint8Array(16)).buffer);
+      currentKey = await deriveKey(v, currentSalt);
+      await flushSave();                               // encrypt old data with the new vault
+    } else if(bundle){
+      const key = await deriveKey(v, bundle.salt);
+      const obj = await decryptVault(bundle, key);     // wrong PIN throws here → stays encrypted
+      state = mergeData(obj);
+      currentKey = key; currentSalt = bundle.salt;
+    } else {
+      if(v!==DEFAULT_PIN) throw new Error('wrong');    // first run: vault is created with 9696 only
+      state = defaults(); state.settings.pin = v;
+      currentSalt = bufToB64(crypto.getRandomValues(new Uint8Array(16)).buffer);
+      currentKey = await deriveKey(v, currentSalt);
+      await flushSave();
+    }
+    _lastLocalAt = Number(vaultLocal && vaultLocal.updatedAt)||0;
+    pinAttempts=0; pinLockUntil=0;
+    store.set('saaj_pin_attempts','0'); store.set('saaj_pin_lock_until','0');
+    await saveSession();
+    errEl.textContent='';
+    showApp();
+    checkRemoteAfterUnlock();
+  }catch(e){
+    failAttempt();   // wrong PIN → nothing is decrypted, everything stays encrypted
+  }
+}
+async function checkRemoteAfterUnlock(){
+  if(!firebaseOk || !vaultRemote) return;
+  const rt = Number(vaultRemote.updatedAt)||0;
+  if(rt <= _lastLocalAt) return;
+  try{
+    const obj = await decryptVault(vaultRemote.vault, currentKey);
+    state = mergeData(obj);
+    vaultLocal = {...vaultRemote.vault, updatedAt: rt};
+    store.set(DB_KEY, JSON.stringify(vaultLocal));
+    _lastLocalAt = rt;
+    setSaveStatus('cloud', new Date(rt));
+    showApp();
+  }catch(e){ setSaveStatus('mismatch'); }   // cloud data uses a different PIN — local data kept
+}
+function handleRemote(remote){              // live realtime listener (other devices / tabs)
+  if(!remote || !remote.vault) return;
+  const rt = Number(remote.updatedAt)||0;
+  vaultRemote = remote;
+  if(!currentKey) return;                    // still locked — candidate used at unlock time
+  if(rt <= _lastLocalAt) return;             // we already have the same or newer data
+  (async()=>{
+    try{
+      const obj = await decryptVault(remote.vault, currentKey);
+      state = mergeData(obj);
+      vaultLocal = {...remote.vault, updatedAt: rt};
+      store.set(DB_KEY, JSON.stringify(vaultLocal));
+      _lastLocalAt = rt;
+      setSaveStatus('cloud', new Date(rt));
+      setView(_currentView);
+    }catch(e){ setSaveStatus('mismatch'); }
+  })();
+}
+document.getElementById('pin-submit').addEventListener('click', ()=>{ tryPin(); });
+document.getElementById('pin-input').addEventListener('keydown', e=>{ if(e.key==='Enter') tryPin(); });
+document.getElementById('btn-logout').addEventListener('click', ()=>{ sstore.remove(AUTH_KEY); location.reload(); });
+
+/* ---------------- Nav / routing ---------------- */
+const TITLES={dashboard:'Dashboard',parties:'Parties',products:'Products',bills:'Bills / Tax Invoices',quotations:'Quotations',challans:'Delivery Challans',payments:'Payments',settings:'Settings'};
+function setView(v){
+  _currentView = v;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active', b.dataset.view===v));
+  document.getElementById('view-title').textContent=TITLES[v]||v;
+  ({dashboard:renderDashboard,parties:renderParties,products:renderProducts,bills:()=>renderDocs('bill'),quotations:()=>renderDocs('quotation'),challans:()=>renderDocs('challan'),payments:renderPayments,settings:renderSettings}[v]||renderDashboard)();
+}
+document.getElementById('nav').addEventListener('click', e=>{ const b=e.target.closest('[data-view]'); if(b) setView(b.dataset.view); });
+
+/* ---------------- Totals ---------------- */
+function docTotals(doc){
+  let sub=0; (doc.items||[]).forEach(it=>{ sub += (Number(it.qty)||0)*(Number(it.rate)||0); });
+  if(!isFinite(sub)) sub=0;
+  const gst = sub*(Number(doc.gst)||0)/100;
+  const disc = Number(doc.discount)||0;
+  return {sub, gst, disc, grand: sub+gst-disc};
+}
+function partyOutstanding(pid){
+  let billed=0, recd=0;
+  state.bills.forEach(b=>{ if(b.partyId!==pid) return; const t=docTotals(b).grand; billed+=t; recd += (b.status==='paid')? t : (Number(b.paidAmount)||0); });
+  return billed-recd;
+}
+/* Indian number → words */
+function amountInWords(num){
+  let n = Math.round(Number(num)||0);
+  if(n<=0) return 'Zero Rupees Only';
+  const a=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const b=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  const two = x => x<20 ? a[x] : b[Math.floor(x/10)] + (x%10? ' '+a[x%10] : '');
+  const three = x => (x>=100 ? a[Math.floor(x/100)]+' Hundred'+(x%100?' ':'') : '') + (x%100 ? two(x%100) : '');
+  let s='';
+  const cr=Math.floor(n/10000000); n%=10000000;
+  const lk=Math.floor(n/100000);   n%=100000;
+  const th=Math.floor(n/1000);     n%=1000;
+  if(cr) s+=three(cr)+' Crore ';
+  if(lk) s+=two(lk)+' Lakh ';
+  if(th) s+=two(th)+' Thousand ';
+  if(n)  s+=three(n);
+  return s.trim()+' Rupees Only';
+}
+
+/* ---------------- Dashboard ---------------- */
+function renderDashboard(){
+  const bills=state.bills, quos=state.quotations, chs=state.challans;
+  let billed=0, received=0;
+  bills.forEach(b=>{ const t=docTotals(b).grand; billed+=t; received += (b.status==='paid')?t:(Number(b.paidAmount)||0); });
+  const outstanding=billed-received;
+  let quotVal=0; quos.forEach(q=>quotVal+=docTotals(q).grand);
+  const cards=`
+    <div class="grid cards">
+      <div class="card"><div class="k">Parties</div><div class="v">${state.parties.length}</div></div>
+      <div class="card"><div class="k">Products</div><div class="v">${state.products.length}</div></div>
+      <div class="card"><div class="k">Bills Raised</div><div class="v">${bills.length}</div></div>
+      <div class="card"><div class="k">Total Billed</div><div class="v sm">${money(billed)}</div></div>
+      <div class="card"><div class="k">Outstanding</div><div class="v sm" style="color:#b91c1c">${money(outstanding)}</div></div>
+      <div class="card"><div class="k">Quotations</div><div class="v">${quos.length}</div></div>
+      <div class="card"><div class="k">Quotation Value</div><div class="v sm">${money(quotVal)}</div></div>
+      <div class="card"><div class="k">Delivery Challans</div><div class="v">${chs.length}</div></div>
+    </div>`;
+  const recent=[...bills.map(b=>({t:'Bill',n:b.number,d:b.date,v:docTotals(b).grand})),
+                ...quos.map(q=>({t:'Quotation',n:q.number,d:q.date,v:docTotals(q).grand}))]
+                .sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,6);
+  const rows = recent.length? recent.map(r=>`<tr><td>${r.t}</td><td>${esc(r.n)}</td><td>${fmtDate(r.d)}</td><td style="text-align:right">${money(r.v)}</td></tr>`).join('')
+                              : `<tr><td colspan="4" class="empty">No records yet</td></tr>`;
+  document.getElementById('view').innerHTML = cards + `
+    <div class="panel"><h3>Recent Activity</h3>
+      <table><thead><tr><th>Type</th><th>Number</th><th>Date</th><th style="text-align:right">Amount</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+}
+
+/* ---------------- Parties (with details + ledger) ---------------- */
+function renderParties(){
+  const rows = state.parties.length ? state.parties.map(p=>{
+    const out=partyOutstanding(p.id);
+    return `
+    <tr>
+      <td><b>${esc(p.name)}</b></td><td>${esc(p.phone)}</td><td>${esc(p.gstin)||'—'}</td>
+      <td style="text-align:right;color:${out>0?'#b91c1c':'#166534'};font-weight:600">${money(out)}</td>
+      <td><div class="actions">
+        <button class="btn ghost sm" data-action="view-party" data-id="${p.id}">Details</button>
+        <button class="btn ghost sm" data-action="edit-party" data-id="${p.id}">Edit</button>
+        <button class="btn danger sm" data-action="del-party" data-id="${p.id}">Delete</button>
+      </div></td>
+    </tr>`;}).join('') : `<tr><td colspan="5" class="empty">No parties yet</td></tr>`;
+  document.getElementById('view').innerHTML = `
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+      <button class="btn" data-action="add-party">+ Add Party</button>
+    </div>
+    <div class="panel"><table><thead><tr><th>Name</th><th>Phone</th><th>GSTIN</th><th style="text-align:right">Outstanding</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function partyForm(id){
+  const p = id? state.parties.find(x=>x.id===id) : {name:'',phone:'',gstin:'',address:''};
+  if(id && !p){ renderParties(); return; }
+  openModal((id?'Edit':'Add')+' Party', `
+    <input type="hidden" id="f-id" value="${id||''}">
+    <label>Name *</label><input id="f-name" value="${esc(p.name)}" placeholder="Party / Customer name">
+    <div class="row">
+      <div><label>Phone</label><input id="f-phone" value="${esc(p.phone)}"></div>
+      <div><label>GSTIN</label><input id="f-gstin" value="${esc(p.gstin)}" placeholder="e.g. 27AAAAA0000A1Z5"></div>
+    </div>
+    <label>Address</label><textarea id="f-address" placeholder="Billing / shipping address">${esc(p.address)}</textarea>
+  `, ()=>{
+    const name=document.getElementById('f-name').value.trim();
+    if(!name){ alert('Name is required'); return; }
+    const data={name, phone:document.getElementById('f-phone').value.trim(), gstin:document.getElementById('f-gstin').value.trim(), address:document.getElementById('f-address').value.trim()};
+    if(id){ Object.assign(state.parties.find(x=>x.id===id), data); } else { state.parties.push({id:uid(), ...data}); }
+    save(); closeModal(); renderParties();
+  });
+}
+function partyLedger(id){
+  const p=state.parties.find(x=>x.id===id); if(!p) return;
+  const bills=state.bills.filter(b=>b.partyId===id);
+  const pays=state.payments.filter(x=>x.partyId===id);
+  let billed=0, recd=0;
+  const bRows=bills.length? bills.map(b=>{
+    const t=docTotals(b).grand; billed+=t;
+    const r=(b.status==='paid')?t:(Number(b.paidAmount)||0); recd+=r;
+    return `<tr><td>${esc(b.number)}</td><td>${fmtDate(b.date)}</td><td style="text-align:right">${money(t)}</td><td style="text-align:right">${money(r)}</td><td>${statusTag(b.status)}</td></tr>`;
+  }).join('') : '<tr><td colspan="5" class="empty">No bills for this party</td></tr>';
+  const pRows=pays.length? pays.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.mode)}</td><td>${esc(x.note)}</td><td style="text-align:right">${money(x.amount)}</td></tr>`).join('')
+                         : '<tr><td colspan="4" class="empty">No payments recorded</td></tr>';
+  const out=billed-recd;
+  openModal('Party Details — '+esc(p.name), `
+    <div class="row" style="font-size:13px;margin-bottom:6px">
+      <div><b>Phone:</b> ${esc(p.phone)||'—'}<br><b>GSTIN:</b> ${esc(p.gstin)||'—'}</div>
+      <div><b>Address:</b> ${esc(p.address)||'—'}</div>
+    </div>
+    <h3 style="font-size:14px;margin:12px 0 4px">Bills</h3>
+    <table><thead><tr><th>Bill No.</th><th>Date</th><th style="text-align:right">Amount</th><th style="text-align:right">Received</th><th>Status</th></tr></thead><tbody>${bRows}</tbody></table>
+    <h3 style="font-size:14px;margin:14px 0 4px">Payments</h3>
+    <table><thead><tr><th>Date</th><th>Mode</th><th>Note</th><th style="text-align:right">Amount</th></tr></thead><tbody>${pRows}</tbody></table>
+    <div class="totals" style="width:320px">
+      <div><span>Total Billed</span><span>${money(billed)}</span></div>
+      <div><span>Total Received</span><span>${money(recd)}</span></div>
+      <div class="grand"><span>Outstanding</span><span style="color:${out>0?'#b91c1c':'#166534'}">${money(out)}</span></div>
+    </div>`, closeModal, {saveLabel:'Close'});
+}
+
+/* ---------------- Products ---------------- */
+function renderProducts(){
+  const rows = state.products.length ? state.products.map(p=>`
+    <tr>
+      <td><b>${esc(p.name)}</b></td><td>${esc(p.hsn)||'—'}</td><td>${esc(p.unit)||'—'}</td>
+      <td style="text-align:right">${money(p.rate)}</td>
+      <td><div class="actions">
+        <button class="btn ghost sm" data-action="edit-product" data-id="${p.id}">Edit</button>
+        <button class="btn danger sm" data-action="del-product" data-id="${p.id}">Delete</button>
+      </div></td>
+    </tr>`).join('') : `<tr><td colspan="5" class="empty">No products yet</td></tr>`;
+  document.getElementById('view').innerHTML = `
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+      <button class="btn" data-action="add-product">+ Add Product</button>
+    </div>
+    <div class="panel"><table><thead><tr><th>Product Name</th><th>HSN Code</th><th>Unit</th><th style="text-align:right">Default Rate</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="panel" style="font-size:12px;color:var(--muted)">Tip: while making a bill or quotation, type or pick a product name in the item row — its rate fills in automatically.</div>`;
+}
+function productForm(id){
+  const p = id? state.products.find(x=>x.id===id) : {name:'',hsn:'',unit:'pcs',rate:''};
+  if(id && !p){ renderProducts(); return; }
+  openModal((id?'Edit':'Add')+' Product', `
+    <label>Product Name *</label><input id="pf-name" value="${esc(p.name)}" placeholder="e.g. Cotton Saree">
+    <div class="row">
+      <div><label>HSN / SAC Code</label><input id="pf-hsn" value="${esc(p.hsn)}" placeholder="e.g. 5208"></div>
+      <div><label>Unit</label><input id="pf-unit" value="${esc(p.unit)}" placeholder="pcs / mtr / set"></div>
+    </div>
+    <label>Default Rate (₹)</label><input id="pf-rate" type="number" min="0" step="0.01" value="${esc(p.rate)}">
+  `, ()=>{
+    const name=document.getElementById('pf-name').value.trim();
+    if(!name){ alert('Product name is required'); return; }
+    const data={name, hsn:document.getElementById('pf-hsn').value.trim(), unit:document.getElementById('pf-unit').value.trim(), rate:Number(document.getElementById('pf-rate').value)||0};
+    if(id){ Object.assign(state.products.find(x=>x.id===id), data); } else { state.products.push({id:uid(), ...data}); }
+    save(); closeModal(); renderProducts();
+  });
+}
+
+/* ---------------- Docs (bill / quotation / challan) ---------------- */
+const DOC_TYPES={
+  bill:{title:'Bills / Tax Invoices', label:'Bill', add:'+ New Bill', kind:'bill'},
+  quotation:{title:'Quotations', label:'Quotation', add:'+ New Quotation', kind:'quotation'},
+  challan:{title:'Delivery Challans', label:'Challan', add:'+ New Delivery Challan', kind:'challan'}
+};
+function renderDocs(kind){
+  const map={bill:state.bills, quotation:state.quotations, challan:state.challans};
+  const list=map[kind]||[];
+  const t=DOC_TYPES[kind];
+  const rows = list.length ? list.map(d=>{
+    const tot=docTotals(d).grand;
+    let status='';
+    if(kind==='bill'){ status=statusTag(d.status); }
+    else if(kind==='quotation'){ status='<span class="tag quot">Quotation</span>'; }
+    return `<tr>
+      <td>${esc(d.number)}</td><td>${fmtDate(d.date)}</td><td>${esc(partyName(d.partyId))}</td>
+      <td style="text-align:right">${kind==='challan'?'—':money(tot)}</td><td>${status}</td>
+      <td><div class="actions">
+        <button class="btn ghost sm" data-action="pdf-${kind}" data-id="${d.id}">PDF</button>
+        <button class="btn ghost sm" data-action="edit-${kind}" data-id="${d.id}">Edit</button>
+        <button class="btn danger sm" data-action="del-${kind}" data-id="${d.id}">Delete</button>
+      </div></td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="6" class="empty">No ${t.label.toLowerCase()}s yet</td></tr>`;
+  document.getElementById('view').innerHTML = `
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+      <button class="btn" data-action="add-${kind}">${t.add}</button>
+    </div>
+    <div class="panel"><table>
+      <thead><tr><th>Number</th><th>Date</th><th>Party</th><th style="text-align:right">${kind==='challan'?'Qty':'Amount'}</th><th>Status</th><th></th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+}
+
+function emptyDoc(kind){
+  const s=S();
+  const base={id:uid(), partyId:state.parties[0]?state.parties[0].id:'', date:today(), notes:'', terms:'', items:[]};
+  if(kind==='challan'){ return {...base, number:s.challanPrefix+'-'+String(s.challanCounter).padStart(4,'0'), vehicle:'', destination:''}; }
+  if(kind==='quotation'){ return {...base, number:s.quotePrefix+'-'+String(s.quoteCounter).padStart(4,'0'), gst:s.gstPercent, discount:0, validUntil:'', status:'quotation'}; }
+  return {...base, number:s.billPrefix+'-'+String(s.billCounter).padStart(4,'0'), gst:s.gstPercent, discount:0, status:'unpaid', paidAmount:0};
+}
+function docForm(kind,id){
+  const store={bill:state.bills, quotation:state.quotations, challan:state.challans};
+  const d = id? store[kind].find(x=>x.id===id) : emptyDoc(kind);
+  if(!d){ alert('This record could not be found (old data). The list has been refreshed — please try again.'); renderDocs(kind); return; }
+  const isChallan = kind==='challan';
+  const partyOpts = state.parties.map(p=>`<option value="${p.id}" ${p.id===d.partyId?'selected':''}>${esc(p.name)}</option>`).join('');
+  const prodList = state.products.map(p=>`<option value="${esc(p.name)}">`).join('');
+  const itemHtml = (d.items||[]).map(it=>itemRow(it,isChallan)).join('');
+  const prefixLabel = isChallan?'Challan No.':(kind==='quotation'?'Quotation No.':'Bill No.');
+  const extra = isChallan ? `
+      <div class="row">
+        <div><label>Vehicle / Transport</label><input id="f-vehicle" value="${esc(d.vehicle)}"></div>
+        <div><label>Destination</label><input id="f-dest" value="${esc(d.destination)}"></div>
+      </div>`
+    : kind==='quotation' ? `<div class="row">
+        <div><label>GST %</label><input id="f-gst" type="number" min="0" step="0.01" value="${esc(d.gst)}"></div>
+        <div><label>Valid Until</label><input id="f-valid" type="date" value="${esc(d.validUntil)}"></div></div>`
+      : `<div class="row">
+        <div><label>GST %</label><input id="f-gst" type="number" min="0" step="0.01" value="${esc(d.gst)}"></div>
+        <div><label>Discount (₹)</label><input id="f-disc" type="number" min="0" step="0.01" value="${esc(d.discount)}"></div></div>
+        <label>Payment Status</label>
+        <select id="f-status">
+          <option value="unpaid" ${d.status==='unpaid'?'selected':''}>Unpaid</option>
+          <option value="partial" ${d.status==='partial'?'selected':''}>Partially Paid</option>
+          <option value="paid" ${d.status==='paid'?'selected':''}>Paid</option>
+        </select>
+        <div id="paid-wrap" style="${d.status==='unpaid'?'display:none':''}"><label>Amount Received (₹)</label><input id="f-paid" type="number" min="0" step="0.01" value="${esc(d.paidAmount||0)}"></div>`;
+  openModal((id?'Edit':'New')+' '+DOC_TYPES[kind].label, `
+    <input type="hidden" id="f-id" value="${id||''}">
+    <datalist id="prod-list">${prodList}</datalist>
+    <div class="row">
+      <div><label>${prefixLabel}</label><input id="f-number" value="${esc(d.number)}"></div>
+      <div><label>Date</label><input id="f-date" type="date" value="${esc(d.date)}"></div>
+    </div>
+    <label>Party</label><select id="f-party">${partyOpts || '<option value="">— no parties —</option>'}</select>
+    ${extra}
+    <label>Items <span style="font-weight:400;color:var(--muted)">(type a product name — rate auto-fills from Products)</span></label>
+    <div class="items" id="items">
+      <div class="ih"><span>Description</span><span>Qty</span><span>${isChallan?'':'Rate'}</span><span>${isChallan?'':'Amount'}</span><span></span></div>
+      <div id="item-rows">${itemHtml}</div>
+    </div>
+    <button class="btn ghost sm additem" id="add-item">+ Add Item</button>
+    ${isChallan?'':`<div class="totals" id="totals"></div>`}
+    <label>Terms & Conditions</label><textarea id="f-terms" placeholder="Printed on the document">${esc(d.terms || S().defaultTerms)}</textarea>
+    <label>Notes</label><textarea id="f-notes" placeholder="Remarks...">${esc(d.notes)}</textarea>
+  `, ()=>{
+    const items=collectItems(isChallan);
+    if(!items.length){ alert('Add at least one item'); return; }
+    const data={ number:document.getElementById('f-number').value.trim(), date:document.getElementById('f-date').value, partyId:document.getElementById('f-party').value,
+                 notes:document.getElementById('f-notes').value.trim(), terms:document.getElementById('f-terms').value.trim(), items };
+    if(isChallan){ data.vehicle=document.getElementById('f-vehicle').value.trim(); data.destination=document.getElementById('f-dest').value.trim(); }
+    else { data.gst=Number(document.getElementById('f-gst').value)||0; const discEl=document.getElementById('f-disc'); data.discount=discEl?Number(discEl.value)||0:0;
+           if(kind==='quotation'){ data.validUntil=document.getElementById('f-valid').value; data.status='quotation'; }
+           else { data.status=document.getElementById('f-status').value; data.paidAmount=Number(document.getElementById('f-paid').value)||0; } }
+    if(id){ Object.assign(store[kind].find(x=>x.id===id), data); }
+    else { store[kind].push({...data, id:d.id});
+           if(kind==='bill') S().billCounter++; else if(kind==='quotation') S().quoteCounter++; else S().challanCounter++; }
+    save(); closeModal(); renderDocs(kind);
+  });
+  document.getElementById('add-item').addEventListener('click', ()=>{ document.getElementById('item-rows').insertAdjacentHTML('beforeend', itemRow({},isChallan)); if(!isChallan) recalc(); });
+  if(!isChallan) recalc();
+  document.getElementById('items').addEventListener('input', e=>{ if(e.target.matches('input')) recalc(); });
+  /* auto-fill rate when a product is picked / typed exactly */
+  document.getElementById('items').addEventListener('change', e=>{
+    const inp=e.target;
+    if(inp.dataset && inp.dataset.k==='desc' && !isChallan){
+      const pr=state.products.find(x=>x.name.toLowerCase()===inp.value.trim().toLowerCase());
+      if(pr){ const rateEl=inp.closest('.ir').querySelector('[data-k=rate]'); if(rateEl){ rateEl.value=pr.rate; recalc(); } }
+    }
+  });
+  const st=document.getElementById('f-status'); if(st) st.addEventListener('change', ()=>{ document.getElementById('paid-wrap').style.display = st.value==='unpaid'?'none':''; });
+}
+function itemRow(it,isChallan){
+  const v=it||{};
+  if(isChallan) return `<div class="ir"><input list="prod-list" placeholder="Item description" value="${esc(v.desc||'')}" data-k="desc"><input type="number" min="0" step="0.01" placeholder="Qty" value="${esc(v.qty||'')}" data-k="qty"><span></span><span></span><button class="del" data-del>×</button></div>`;
+  return `<div class="ir"><input list="prod-list" placeholder="Item description" value="${esc(v.desc||'')}" data-k="desc"><input type="number" min="0" step="0.01" placeholder="Qty" value="${esc(v.qty||'')}" data-k="qty"><input type="number" min="0" step="0.01" placeholder="Rate" value="${esc(v.rate||'')}" data-k="rate"><span class="amt" data-amt>₹0.00</span><button class="del" data-del>×</button></div>`;
+}
+function collectItems(isChallan){
+  const rows=document.querySelectorAll('#item-rows .ir'); const out=[];
+  rows.forEach(r=>{
+    const desc=r.querySelector('[data-k=desc]').value.trim();
+    const o={desc, qty:Number(r.querySelector('[data-k=qty]').value)||0};
+    if(!isChallan) o.rate=Number(r.querySelector('[data-k=rate]').value)||0;
+    const pr=state.products.find(x=>x.name.toLowerCase()===desc.toLowerCase());
+    if(pr && pr.hsn) o.hsn=pr.hsn;
+    if(o.desc && o.qty>0) out.push(o);
+  });
+  return out;
+}
+function recalc(){
+  let sub=0; document.querySelectorAll('#item-rows .ir').forEach(r=>{
+    const qtyEl=r.querySelector('[data-k=qty]'); const rateEl=r.querySelector('[data-k=rate]');
+    const q=Number(qtyEl?qtyEl.value:0)||0, rt=Number(rateEl?rateEl.value:0)||0; const amt=q*rt;
+    const a=r.querySelector('[data-amt]'); if(a) a.textContent=money(amt); sub+=amt;
+  });
+  const gstEl=document.getElementById('f-gst');
+  const gst=sub*(Number(gstEl?gstEl.value:0)||0)/100;
+  const disc=Number(document.getElementById('f-disc')?.value||0)||0;
+  const t=document.getElementById('totals'); if(!t) return;
+  t.innerHTML=`
+    <div><span>Subtotal</span><span>${money(sub)}</span></div>
+    <div><span>GST</span><span>${money(gst)}</span></div>
+    <div><span>Discount</span><span>- ${money(disc)}</span></div>
+    <div class="grand"><span>Grand Total</span><span>${money(sub+gst-disc)}</span></div>`;
+}
+
+/* ---------------- Payments ---------------- */
+function renderPayments(){
+  const rows = state.payments.length ? state.payments.map(p=>`
+    <tr><td>${fmtDate(p.date)}</td><td>${esc(partyName(p.partyId))}</td><td>${esc(p.mode)}</td>
+      <td style="text-align:right">${money(p.amount)}</td>
+      <td><div class="actions"><button class="btn danger sm" data-action="del-pay" data-id="${p.id}">Delete</button></div></td></tr>`).join('')
+    : `<tr><td colspan="5" class="empty">No payments recorded</td></tr>`;
+  document.getElementById('view').innerHTML=`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button class="btn" data-action="add-pay">+ Record Payment</button></div>
+    <div class="panel"><table><thead><tr><th>Date</th><th>Party</th><th>Mode</th><th style="text-align:right">Amount</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function payForm(){
+  const opts=state.parties.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  openModal('Record Payment',`
+    <div class="row">
+      <div><label>Date</label><input id="p-date" type="date" value="${today()}"></div>
+      <div><label>Party</label><select id="p-party">${opts||'<option value="">—</option>'}</select></div>
+    </div>
+    <div class="row">
+      <div><label>Amount (₹)</label><input id="p-amt" type="number" min="0" step="0.01"></div>
+      <div><label>Mode</label><select id="p-mode"><option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Cheque</option><option>Other</option></select></div>
+    </div>
+    <label>Note</label><input id="p-note" placeholder="Reference / remark (e.g. INV-0001)">
+  `,()=>{
+    const amt=Number(document.getElementById('p-amt').value)||0;
+    if(!amt){ alert('Enter amount'); return; }
+    state.payments.push({id:uid(), date:document.getElementById('p-date').value, partyId:document.getElementById('p-party').value, amount:amt, mode:document.getElementById('p-mode').value, note:document.getElementById('p-note').value.trim()});
+    save(); closeModal(); renderPayments();
+  });
+}
+
+/* ---------------- Settings (incl. Bank details & Terms) ---------------- */
+function renderSettings(){
+  const s=S();
+  document.getElementById('view').innerHTML=`
+    <div class="panel" style="max-width:640px">
+      <h3>Business Details</h3>
+      <label>Business Name</label><input id="s-name" value="${esc(s.businessName)}">
+      <label>Address</label><textarea id="s-addr">${esc(s.address)}</textarea>
+      <div class="row">
+        <div><label>GSTIN</label><input id="s-gstin" value="${esc(s.gstin)}"></div>
+        <div><label>Phone</label><input id="s-phone" value="${esc(s.phone)}"></div>
+      </div>
+      <div class="row">
+        <div><label>Default GST %</label><input id="s-gst" type="number" step="0.01" value="${esc(s.gstPercent)}"></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="panel" style="max-width:640px">
+      <h3>Admin PIN (entry code)</h3>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 4px">All data (including this PIN) is encrypted with AES-256 using your PIN. If the PIN is lost, the data cannot be recovered. Changing it re-encrypts everything and the old PIN stops working on all devices.</p>
+      <div class="row">
+        <div><label>Current PIN</label><input id="s-curpin" type="password" inputmode="numeric" autocomplete="off"></div>
+        <div><label>New PIN</label><input id="s-newpin" type="password" inputmode="numeric" autocomplete="off"></div>
+      </div>
+      <div class="row">
+        <div><label>Confirm New PIN</label><input id="s-newpin2" type="password" inputmode="numeric" autocomplete="off"></div>
+        <div style="align-self:end"><button class="btn sm" id="s-changepin" style="width:100%">Change PIN</button></div>
+      </div>
+      <div id="pin-msg" style="font-size:12px;min-height:16px;margin-top:6px"></div>
+    </div>
+    <div class="panel" style="max-width:640px">
+      <h3>Bank Details (printed on Bills & Quotations)</h3>
+      <label>Account Holder Name</label><input id="s-accname" value="${esc(s.accountName)}">
+      <div class="row">
+        <div><label>Bank Name</label><input id="s-bank" value="${esc(s.bankName)}" placeholder="e.g. Bank of Maharashtra"></div>
+        <div><label>Account Number</label><input id="s-accno" value="${esc(s.accountNo)}"></div>
+      </div>
+      <div class="row">
+        <div><label>IFSC Code</label><input id="s-ifsc" value="${esc(s.ifsc)}"></div>
+        <div><label>UPI ID</label><input id="s-upi" value="${esc(s.upi)}" placeholder="e.g. saaj@upi"></div>
+      </div>
+    </div>
+    <div class="panel" style="max-width:640px">
+      <h3>Default Terms & Conditions</h3>
+      <label>Printed on every Bill / Quotation (editable per document)</label>
+      <textarea id="s-terms" style="min-height:110px">${esc(s.defaultTerms)}</textarea>
+    </div>
+    <div class="panel" style="max-width:640px">
+      <h3>Numbering</h3>
+      <div class="row">
+        <div><label>Bill Prefix</label><input id="s-bp" value="${esc(s.billPrefix)}"></div>
+        <div><label>Next Bill #</label><input id="s-bc" type="number" value="${esc(s.billCounter)}"></div>
+      </div>
+      <div class="row">
+        <div><label>Quotation Prefix</label><input id="s-qp" value="${esc(s.quotePrefix)}"></div>
+        <div><label>Next Quotation #</label><input id="s-qc" type="number" value="${esc(s.quoteCounter)}"></div>
+      </div>
+      <div class="row">
+        <div><label>Challan Prefix</label><input id="s-cp" value="${esc(s.challanPrefix)}"></div>
+        <div><label>Next Challan #</label><input id="s-cc" type="number" value="${esc(s.challanCounter)}"></div>
+      </div>
+    </div>
+    <div style="max-width:640px"><button class="btn" id="s-save">Save Settings</button></div>`;
+  document.getElementById('s-save').addEventListener('click', ()=>{
+    Object.assign(s,{
+      businessName:document.getElementById('s-name').value.trim()||'Business',
+      address:document.getElementById('s-addr').value.trim(),
+      gstin:document.getElementById('s-gstin').value.trim(),
+      phone:document.getElementById('s-phone').value.trim(),
+      gstPercent:Number(document.getElementById('s-gst').value)||0,
+      accountName:document.getElementById('s-accname').value.trim(),
+      bankName:document.getElementById('s-bank').value.trim(),
+      accountNo:document.getElementById('s-accno').value.trim(),
+      ifsc:document.getElementById('s-ifsc').value.trim(),
+      upi:document.getElementById('s-upi').value.trim(),
+      defaultTerms:document.getElementById('s-terms').value,
+      billPrefix:document.getElementById('s-bp').value.trim()||'INV', billCounter:Number(document.getElementById('s-bc').value)||1,
+      quotePrefix:document.getElementById('s-qp').value.trim()||'QUO', quoteCounter:Number(document.getElementById('s-qc').value)||1,
+      challanPrefix:document.getElementById('s-cp').value.trim()||'CHL', challanCounter:Number(document.getElementById('s-cc').value)||1
+    });
+    save(); alert('Settings saved'); setView('dashboard');
+  });
+  /* Change PIN — re-keys and re-encrypts the whole vault (old PIN stops working) */
+  document.getElementById('s-changepin').addEventListener('click', async ()=>{
+    const msg=document.getElementById('pin-msg');
+    const cur=document.getElementById('s-curpin').value.trim();
+    const n1=document.getElementById('s-newpin').value.trim();
+    const n2=document.getElementById('s-newpin2').value.trim();
+    if(cur!==s.pin){ msg.style.color='#b91c1c'; msg.textContent='Current PIN is incorrect.'; return; }
+    if(n1.length<4 || !/^\d+$/.test(n1)){ msg.style.color='#b91c1c'; msg.textContent='New PIN must be at least 4 digits.'; return; }
+    if(n1!==n2){ msg.style.color='#b91c1c'; msg.textContent='New PINs do not match.'; return; }
+    currentSalt = bufToB64(crypto.getRandomValues(new Uint8Array(16)).buffer);
+    currentKey = await deriveKey(n1, currentSalt);
+    s.pin = n1;
+    await flushSave();
+    await saveSession();
+    msg.style.color='#166534'; msg.textContent='✓ PIN changed to '+n1+' — all data re-encrypted and synced.';
+    document.getElementById('s-curpin').value='';
+    document.getElementById('s-newpin').value='';
+    document.getElementById('s-newpin2').value='';
+  });
+}
+
+/* ---------------- PDF (preview + print) ---------------- */
+function buildDocHtml(kind,id){
+  const store={bill:state.bills, quotation:state.quotations, challan:state.challans};
+  const d=store[kind].find(x=>x.id===id); if(!d) return null;
+  const s=S(); const p=state.parties.find(x=>x.id===d.partyId)||{};
+  const isQuot=kind==='quotation', isChal=kind==='challan';
+  const title=isChal?'DELIVERY CHALLAN':(isQuot?'QUOTATION':'TAX INVOICE');
+  let rows='', sub=0;
+  (d.items||[]).forEach((it,i)=>{ const amt=isChal?0:(Number(it.qty)||0)*(Number(it.rate)||0); sub+=amt;
+    rows+=`<tr><td>${i+1}</td><td>${esc(it.desc)}${it.hsn?`<div style="font-size:10px;color:#64748b">HSN: ${esc(it.hsn)}</div>`:''}</td><td style="text-align:right">${it.qty}</td>${isChal?'':`<td style="text-align:right">${money(it.rate)}</td><td style="text-align:right">${money(amt)}</td>`}</tr>`; });
+  const t=docTotals(d);
+  const totals=isChal?'':`<div class="rt">
+      <div><span>Subtotal</span><span>${money(t.sub)}</span></div>
+      <div><span>GST (${d.gst}%)</span><span>${money(t.gst)}</span></div>
+      ${t.disc?`<div><span>Discount</span><span>- ${money(t.disc)}</span></div>`:''}
+      <div class="g"><span>Grand Total</span><span>${money(t.grand)}</span></div></div>
+    <div class="words"><b>Amount in words:</b> ${esc(amountInWords(t.grand))}</div>`;
+  const extra=isChal?`<div class="pt"><div><b>Vehicle</b>${esc(d.vehicle)||'—'}</div><div><b>Destination</b>${esc(d.destination)||'—'}</div></div>`
+    : isQuot?`<div class="pt"><div><b>Valid Until</b>${fmtDate(d.validUntil)}</div><div></div></div>`
+    : `<div class="pt"><div><b>Status</b>${({unpaid:'Unpaid',partial:'Partially Paid',paid:'Paid'})[d.status]||''}</div><div><b>Received</b>${money(d.paidAmount||0)}</div></div>`;
+  const bank=(s.bankName||s.accountNo||s.ifsc||s.upi) && !isChal ? `
+    <div class="bankbox"><b>Bank Details</b><br>
+      ${esc(s.accountName||s.businessName)}${s.bankName?' · '+esc(s.bankName):''}${s.accountNo?' · A/c No. '+esc(s.accountNo):''}${s.ifsc?' · IFSC '+esc(s.ifsc):''}${s.upi?'<br>UPI: '+esc(s.upi):''}
+    </div>` : '';
+  const terms=(d.terms||s.defaultTerms||'').trim();
+  const termsHtml=terms?`<div class="notes"><b>Terms & Conditions:</b><ul>${terms.split('\n').filter(x=>x.trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'';
+  return `
+    <div class="doc">
+      <div class="dh">
+        <div><div class="co">${esc(s.businessName)}</div>
+          <div style="font-size:12px;color:#334">${esc(s.address)}</div>
+          ${s.gstin?`<div style="font-size:12px;color:#334">GSTIN: ${esc(s.gstin)}</div>`:''}
+          ${s.phone?`<div style="font-size:12px;color:#334">Ph: ${esc(s.phone)}</div>`:''}
+        </div>
+        <div class="meta"><div style="font-size:16px;font-weight:800;color:#0f766e">${title}</div>
+          <div><b>No:</b> ${esc(d.number)}</div><div><b>Date:</b> ${fmtDate(d.date)}</div></div>
+      </div>
+      <div class="pt"><div><b>Bill To</b>${esc(p.name||'—')}${p.address?`<br>${esc(p.address)}`:''}${p.gstin?`<br>GSTIN: ${esc(p.gstin)}`:''}${p.phone?`<br>Ph: ${esc(p.phone)}`:''}</div><div></div></div>
+      ${extra}
+      <table><thead><tr><th style="width:36px">#</th><th>Description</th><th style="text-align:right">Qty</th>${isChal?'':`<th style="text-align:right">Rate</th><th style="text-align:right">Amount</th>`}</tr></thead><tbody>${rows}</tbody></table>
+      ${totals}
+      ${bank}
+      ${termsHtml}
+      ${d.notes?`<div class="notes"><b>Notes:</b> ${esc(d.notes)}</div>`:''}
+      <div class="sig"><div>Receiver's Signature</div><div>Authorised Signatory</div></div>
+    </div>`;
+}
+function previewDoc(kind,id){
+  const html=buildDocHtml(kind,id); if(!html) return;
+  const d={bill:state.bills, quotation:state.quotations, challan:state.challans}[kind].find(x=>x.id===id);
+  document.getElementById('print-area').innerHTML=html;
+  openModal(DOC_TYPES[kind].label+' — '+esc(d?d.number:''), `<div class="preview-doc">${html}</div>`,
+    ()=>{ window.print(); }, {wide:true, saveLabel:'🖨 Print / Save as PDF'});
+}
+
+/* ---------------- Backup / Restore (encrypted) ---------------- */
+document.getElementById('btn-backup').addEventListener('click', async ()=>{
+  if(!currentKey){ alert('Unlock first.'); return; }
+  const bundle = await encryptVault(state, currentKey, currentSalt);
+  bundle.updatedAt = Date.now();
+  const data=JSON.stringify({app:'saaj-saaries', note:'Encrypted AES-256 vault — can only be restored with the correct PIN', exportedAt:new Date().toISOString(), ...bundle}, null, 2);
+  const blob=new Blob([data],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); const d=new Date();
+  const pad=n=>(n<10?'0':'')+n;
+  a.href=url; a.download=`saaj-saaries-backup-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}.json`;
+  a.click(); URL.revokeObjectURL(url);
+});
+document.getElementById('btn-restore').addEventListener('click', ()=>document.getElementById('restore-file').click());
+document.getElementById('restore-file').addEventListener('change', e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=async ()=>{ try{
+    const data=JSON.parse(r.result);
+    let bundle=null, plain=null;
+    if(data && data.salt && data.ct) bundle=data;                       // encrypted backup
+    else if(data && data.vault && data.vault.ct) bundle=data.vault;     // Firebase-style vault
+    else if(data && data.settings) plain=data;                          // old plaintext backup
+    else throw new Error('unknown format');
+    if(bundle){
+      const obj=await decryptVault(bundle, currentKey);
+      if(!confirm('Restore will REPLACE all current data with this encrypted backup. Continue?')) return;
+      state=mergeData(obj);
+    }else{
+      if(!confirm('This is an OLD PLAINTEXT backup. Restore will replace all data and re-encrypt it with the current PIN. Continue?')) return;
+      state=mergeData(plain);
+    }
+    await flushSave();
+    alert('Restore complete — data re-encrypted and synced.');
+    setView('dashboard');
+  }catch(err){ alert('Restore failed: not a valid backup, or the PIN does not match this vault.'); }
+  e.target.value=''; };
+  r.readAsText(f);
+});
+
+/* ---------------- Modal helpers ---------------- */
+function openModal(title, bodyHtml, onSave, opts){
+  const o=opts||{};
+  const m=document.getElementById('modal');
+  m.className='modal'+(o.wide?' wide':'');
+  m.innerHTML=`<header><h3>${title}</h3><button class="x" id="modal-x">×</button></header>
+    <div class="body">${bodyHtml}</div>
+    <footer><button class="btn ghost" id="modal-cancel">${o.wide?'Close':'Cancel'}</button><button class="btn" id="modal-save">${esc(o.saveLabel||'Save')}</button></footer>`;
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('modal-x').onclick=closeModal;
+  document.getElementById('modal-cancel').onclick=closeModal;
+  document.getElementById('modal-save').onclick=onSave||closeModal;
+  const first=m.querySelector('input,select,textarea'); if(first) first.focus();
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('show'); document.getElementById('modal').innerHTML=''; document.getElementById('print-area').innerHTML=''; }
+document.getElementById('overlay').addEventListener('click', e=>{ if(e.target.id==='overlay') closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ---------------- Global click actions ---------------- */
+document.addEventListener('click', e=>{
+  const b=e.target.closest('[data-action]'); if(!b) return;
+  const a=b.dataset.action, id=b.dataset.id;
+  switch(a){
+    case 'add-party': partyForm(); break;
+    case 'edit-party': partyForm(id); break;
+    case 'view-party': partyLedger(id); break;
+    case 'del-party': if(confirm('Delete this party?')){ state.parties=state.parties.filter(x=>x.id!==id); save(); renderParties(); } break;
+    case 'add-product': productForm(); break;
+    case 'edit-product': productForm(id); break;
+    case 'del-product': if(confirm('Delete this product?')){ state.products=state.products.filter(x=>x.id!==id); save(); renderProducts(); } break;
+    case 'add-bill': docForm('bill'); break;
+    case 'edit-bill': docForm('bill',id); break;
+    case 'del-bill': if(confirm('Delete this bill?')){ state.bills=state.bills.filter(x=>x.id!==id); save(); renderDocs('bill'); } break;
+    case 'pdf-bill': previewDoc('bill',id); break;
+    case 'add-quotation': docForm('quotation'); break;
+    case 'edit-quotation': docForm('quotation',id); break;
+    case 'del-quotation': if(confirm('Delete this quotation?')){ state.quotations=state.quotations.filter(x=>x.id!==id); save(); renderDocs('quotation'); } break;
+    case 'pdf-quotation': previewDoc('quotation',id); break;
+    case 'add-challan': docForm('challan'); break;
+    case 'edit-challan': docForm('challan',id); break;
+    case 'del-challan': if(confirm('Delete this delivery challan?')){ state.challans=state.challans.filter(x=>x.id!==id); save(); renderDocs('challan'); } break;
+    case 'pdf-challan': previewDoc('challan',id); break;
+    case 'add-pay': payForm(); break;
+    case 'del-pay': if(confirm('Delete this payment?')){ state.payments=state.payments.filter(x=>x.id!==id); save(); renderPayments(); } break;
+  }
+});
+/* delete item rows */
+document.addEventListener('click', e=>{ if(e.target.closest('[data-del]')){ e.target.closest('.ir').remove(); recalc(); } });
+
+/* ---------------- Boot ---------------- */
+async function init(){
+  if(!window.crypto || !crypto.subtle){
+    document.getElementById('pin-err').textContent='This browser does not support Web Crypto (needed for encryption). Please use a modern browser.';
+    return;
+  }
+  try{ vaultLocal = JSON.parse(store.get(DB_KEY)); }catch(e){ vaultLocal = null; }
+  await loadFirebase();
+  if(firebaseOk){ vaultRemote = await fetchRemote(); subscribeRemote(handleRemote); }
+  /* auto-unlock for this browser session only — the key lives in sessionStorage
+     and disappears when the browser/tab is closed */
+  try{
+    const sess = JSON.parse(sstore.get(AUTH_KEY)||'null');
+    const bundle = (vaultLocal && vaultLocal.salt) ? vaultLocal : (vaultRemote && vaultRemote.vault);
+    if(sess && bundle && sess.salt===bundle.salt){
+      const key = await crypto.subtle.importKey('raw', b64ToBuf(sess.key), 'AES-GCM', false, ['encrypt','decrypt']);
+      const obj = await decryptVault(bundle, key);
+      state = mergeData(obj);
+      currentKey = key; currentSalt = bundle.salt;
+      _lastLocalAt = Number(vaultLocal && vaultLocal.updatedAt)||0;
+      showApp();
+      checkRemoteAfterUnlock();
+      return;
+    }
+  }catch(e){ sstore.remove(AUTH_KEY); }
+  showPin();
+}
+init();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a27d32166a7447d6',t:'MTc4NjE3ODIxMA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
