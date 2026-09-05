@@ -1,0 +1,1526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
+<title>Saaj Saaries Textiles — Billing & Delivery</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230f766e'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'%3ES%3C/text%3E%3C/svg%3E" />
+<meta name="theme-color" content="#0f766e" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --teal:#0f766e; --teal-d:#0b5e57; --teal-l:#e6fffb;
+    --bg:#f1f5f9; --card:#fff; --line:#e2e8f0; --muted:#64748b; --ink:#0f172a;
+    --red:#dc2626; --green:#16a34a; --amber:#d97706; --wa:#25D366;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+  html,body{height:100%}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+  button{font-family:inherit;cursor:pointer;font-size:100%}
+  .app{display:flex;min-height:100vh}
+
+  /* ============ Sidebar (desktop only) ============ */
+  .side{width:236px;background:var(--teal);color:#fff;display:flex;flex-direction:column;flex-shrink:0}
+  .brand{padding:18px 18px 14px;border-bottom:1px solid rgba(255,255,255,.15)}
+  .brand h1{font-size:16px;line-height:1.3}
+  .brand p{font-size:11px;opacity:.8;margin-top:2px}
+  .nav{padding:10px 8px;flex:1;overflow:auto}
+  .nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;color:#e6fffb;padding:11px 12px;border-radius:10px;font-size:14px;margin-bottom:3px}
+  .nav button:hover{background:rgba(255,255,255,.12)}
+  .nav button.active{background:#fff;color:var(--teal);font-weight:700}
+  .nav .ic{width:20px;text-align:center;font-size:15px}
+  .side .foot{padding:12px 16px;font-size:11px;opacity:.75;border-top:1px solid rgba(255,255,255,.15)}
+
+  /* ============ Main ============ */
+  .main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .topbar{min-height:56px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 16px;flex-shrink:0;position:sticky;top:0;z-index:60}
+  .topbar h2{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-left{display:flex;align-items:center;gap:10px;min-width:0}
+  .back-btn{display:none;border:none;background:#f1f5f9;width:36px;height:36px;border-radius:10px;font-size:18px;color:var(--ink);flex-shrink:0}
+  .top-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+  .view{padding:16px;overflow:auto;flex:1;padding-bottom:calc(24px + var(--safe-b))}
+
+  /* ============ Buttons ============ */
+  .btn{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:7px;line-height:1.2}
+  .btn:active{transform:scale(.97)}
+  .btn:hover{background:var(--teal-d)}
+  .btn.ghost{background:#e2e8f0;color:var(--ink)}
+  .btn.ghost:hover{background:#cbd5e1}
+  .btn.danger{background:var(--red)}
+  .btn.wa{background:var(--wa);color:#062e17}
+  .btn.wa:hover{background:#1eb955}
+  .btn.sm{padding:8px 12px;font-size:13px;border-radius:9px}
+  .btn.block{width:100%}
+  .btn:disabled{opacity:.55}
+  .save-pill{font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;background:#f1f5f9;color:#64748b;white-space:nowrap}
+  .save-pill.ok{background:#dcfce7;color:#166534}
+  .save-pill.busy{background:#fef9c3;color:#854d0e}
+  .save-pill.warn{background:#fee2e2;color:#991b1b}
+
+  /* ============ Home tiles (kiosk style) ============ */
+  .hero{background:linear-gradient(135deg,var(--teal),#0d9488);color:#fff;border-radius:16px;padding:16px 18px;margin-bottom:14px}
+  .hero .hh{font-size:13px;opacity:.85}
+  .hero .hv{font-size:30px;font-weight:800;margin-top:2px;letter-spacing:-.5px}
+  .hero .hsub{display:flex;gap:14px;margin-top:10px;font-size:12px;opacity:.92;flex-wrap:wrap}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;box-shadow:0 1px 2px rgba(15,23,42,.05);min-height:112px}
+  .tile:active{transform:scale(.97);background:#f8fafc}
+  .tile .em{font-size:28px;line-height:1}
+  .tile .tl{font-size:14px;font-weight:700}
+  .tile .ts{font-size:11px;color:var(--muted)}
+  .tile.big{grid-column:span 2;flex-direction:row;justify-content:flex-start;gap:14px;text-align:left;background:var(--teal);color:#fff;border-color:var(--teal);min-height:88px;padding:18px}
+  .tile.big .ts{color:#c9f4ef}
+  .tile.big .em{font-size:32px}
+
+  /* ============ Stat chips ============ */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .stat .k{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+  .stat .v{font-size:20px;font-weight:800;margin-top:3px}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+  .panel h3{font-size:15px;margin-bottom:10px}
+  .panel.flush{padding:0;overflow:hidden}
+  .sec-title{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:4px 2px 8px}
+
+  /* ============ Search + toolbar ============ */
+  .toolbar{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+  .search{flex:1;min-width:160px;position:relative}
+  .search input{width:100%;padding:12px 12px 12px 38px;border:1px solid var(--line);border-radius:12px;font-size:15px;background:#fff}
+  .search::before{content:'🔍';position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.55}
+  .chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;margin-bottom:12px;-webkit-overflow-scrolling:touch}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;white-space:nowrap;color:#475569}
+  .chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+
+  /* ============ List rows (mobile-first cards) ============ */
+  .list{display:flex;flex-direction:column;gap:10px}
+  .row-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;display:flex;flex-direction:column;gap:8px}
+  .rc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .rc-title{font-size:15px;font-weight:700;line-height:1.25}
+  .rc-sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .rc-amt{font-size:16px;font-weight:800;white-space:nowrap;text-align:right}
+  .rc-actions{display:flex;gap:7px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:9px}
+  .rc-actions .btn{flex:1;min-width:70px}
+  .tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700}
+  .tag.paid{background:#dcfce7;color:#166534}
+  .tag.unpaid{background:#fee2e2;color:#991b1b}
+  .tag.partial{background:#fef9c3;color:#854d0e}
+  .tag.quot{background:#e0e7ff;color:#3730a3}
+  .tag.due{background:#fee2e2;color:#991b1b}
+  .empty{text-align:center;color:var(--muted);padding:34px 12px;font-size:14px}
+  .empty .em{font-size:34px;display:block;margin-bottom:8px;opacity:.6}
+
+  /* tables (used inside ledger / print previews) */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* ============ Modal / bottom sheet ============ */
+  .overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:flex-start;justify-content:center;padding:20px;overflow:auto;z-index:1000}
+  .overlay.show{display:flex}
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:720px;margin:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column;max-height:92vh}
+  .modal.wide{max-width:900px}
+  .modal header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);flex-shrink:0}
+  .modal header h3{font-size:16px}
+  .modal .body{padding:16px 18px;overflow:auto;flex:1}
+  .modal footer{padding:12px 16px calc(12px + var(--safe-b));border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;flex-shrink:0;background:#fff;border-radius:0 0 16px 16px;flex-wrap:wrap}
+  .modal footer .btn{flex:1;min-width:120px}
+  .x{border:none;background:#f1f5f9;font-size:20px;line-height:1;color:var(--muted);cursor:pointer;width:34px;height:34px;border-radius:10px}
+
+  /* ============ Forms ============ */
+  label{display:block;font-size:12.5px;font-weight:700;color:#334155;margin:14px 0 6px}
+  input,select,textarea{width:100%;padding:12px 12px;border:1px solid var(--line);border-radius:11px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{outline:2px solid #99f6e4;border-color:var(--teal)}
+  textarea{resize:vertical;min-height:62px;font-size:14px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#f1f5f9;padding:5px;border-radius:12px}
+  .seg button{border:none;background:none;padding:10px 6px;border-radius:9px;font-size:13px;font-weight:700;color:#475569}
+  .seg button.on{background:#fff;color:var(--teal);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+  /* item rows */
+  .items{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .ir{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fbfdfd;position:relative}
+  .ir .ir-desc{margin-bottom:8px}
+  .ir .ir-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+  .ir .mini{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px;display:block}
+  .ir input{padding:10px;font-size:15px}
+  .ir .amt{font-weight:800;font-size:15px;white-space:nowrap;padding-bottom:10px;text-align:right;min-width:88px}
+  .ir .del{border:none;background:#fee2e2;color:#b91c1c;border-radius:10px;height:42px;width:42px;font-size:19px;flex-shrink:0}
+  .totals{margin-top:14px;margin-left:auto;max-width:320px;font-size:14px;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px}
+  .totals div{display:flex;justify-content:space-between;padding:4px 0}
+  .totals .grand{border-top:2px solid var(--ink);margin-top:6px;padding-top:8px;font-weight:800;font-size:17px}
+
+  /* ============ PIN ============ */
+  .pin-wrap{position:fixed;inset:0;background:linear-gradient(160deg,var(--teal),#0b5e57);display:flex;align-items:center;justify-content:center;z-index:2000;padding:18px}
+  .pin-box{background:#fff;border-radius:20px;padding:28px 24px calc(24px + var(--safe-b));width:100%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .pin-box h2{color:var(--teal);margin-bottom:4px;font-size:20px}
+  .pin-box p{font-size:13px;color:var(--muted);margin-bottom:16px}
+  .pin-box input{text-align:center;letter-spacing:10px;font-size:22px;margin-bottom:10px;padding:14px}
+  .pin-err{color:var(--red);font-size:12px;min-height:16px;margin-bottom:8px}
+  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+  .keypad button{border:1px solid var(--line);background:#f8fafc;border-radius:12px;padding:14px 0;font-size:19px;font-weight:700;color:var(--ink)}
+  .keypad button:active{background:#e2e8f0}
+
+  /* ============ Bottom nav (mobile) ============ */
+  .bottomnav{display:none;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);z-index:80;padding-bottom:var(--safe-b);box-shadow:0 -2px 14px rgba(15,23,42,.07)}
+  .bottomnav .bn{display:grid;grid-template-columns:repeat(5,1fr)}
+  .bottomnav button{border:none;background:none;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:10.5px;font-weight:700}
+  .bottomnav button .bi{font-size:19px;line-height:1}
+  .bottomnav button.active{color:var(--teal)}
+  .fab{display:none;position:fixed;right:16px;bottom:calc(74px + var(--safe-b));background:var(--teal);color:#fff;border:none;border-radius:999px;padding:15px 20px;font-size:15px;font-weight:800;box-shadow:0 8px 22px rgba(15,118,110,.45);z-index:70;gap:8px;align-items:center}
+
+  /* ============ Print doc ============ */
+  #print-area{display:none}
+  .preview-doc{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;overflow-x:auto}
+  @media print{
+    body *{visibility:hidden !important}
+    #print-area,#print-area *{visibility:visible !important}
+    #print-area{display:block !important;position:absolute;left:0;top:0;width:100%}
+    @page{margin:12mm}
+  }
+  .doc{font-family:Inter,Arial,sans-serif;color:#111;width:100%;max-width:780px;margin:0 auto;padding:6px 4px;background:#fff}
+  .doc .dh{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--teal);padding-bottom:10px;margin-bottom:12px;gap:10px}
+  .doc .dh .co{font-size:19px;font-weight:800;color:var(--teal)}
+  .doc .dh .meta{text-align:right;font-size:11.5px;color:#333;white-space:nowrap}
+  .doc .pt{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:12px;gap:14px}
+  .doc .pt b{display:block;color:#475569;font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;font-weight:700}
+  .doc table{border-collapse:collapse;width:100%;margin:10px 0}
+  .doc th,.doc td{border:1px solid #cbd5e1;padding:6px 8px;font-size:11.5px;text-align:left}
+  .doc th{background:#f0fdfa}
+  .doc .rt{width:290px;margin-left:auto;font-size:12.5px;margin-top:8px}
+  .doc .rt div{display:flex;justify-content:space-between;padding:3px 0}
+  .doc .rt .g{border-top:2px solid #111;margin-top:5px;padding-top:5px;font-weight:800;font-size:14.5px}
+  .doc .words{font-size:11.5px;font-style:italic;color:#334155;margin-top:6px;text-align:right}
+  .doc .notes{font-size:11.5px;color:#475569;margin-top:12px}
+  .doc .notes ul{margin:4px 0 0 18px;padding:0}
+  .doc .notes li{margin:1px 0}
+  .doc .bankbox{border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:11.5px;color:#334155;background:#f8fafc;margin-top:12px}
+  .doc .sig{display:flex;justify-content:space-between;margin-top:34px;font-size:11.5px;color:#475569}
+
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + var(--safe-b));background:#0f172a;color:#fff;padding:12px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:3000;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90vw;text-align:center}
+  .toast.show{opacity:.96}
+
+  /* ============ Responsive ============ */
+  @media(max-width:820px){
+    .side{display:none}
+    .app{display:block}
+    .main{min-height:100vh}
+    .view{padding:14px 12px calc(150px + var(--safe-b))}
+    .bottomnav{display:block}
+    .fab{display:flex}
+    .topbar{padding:8px 12px}
+    .top-actions .desk{display:none}
+    .row{grid-template-columns:1fr}
+    .tile.big{grid-column:span 2}
+    .tiles{grid-template-columns:1fr 1fr;gap:10px}
+    .overlay{padding:0;align-items:flex-end}
+    .modal{max-width:100%;border-radius:18px 18px 0 0;max-height:94vh;margin:0}
+    .modal footer{border-radius:0}
+    .totals{max-width:100%}
+    .doc{font-size:12px}
+  }
+  @media(min-width:821px){ .back-btn{display:none !important} }
+</style>
+</head>
+<body>
+
+<!-- ============ PIN ============ -->
+<div class="pin-wrap" id="pin-wrap">
+  <div class="pin-box">
+    <h2>Saaj Saaries Textiles</h2>
+    <p>Enter your PIN to open</p>
+    <input id="pin-input" type="password" inputmode="none" maxlength="12" placeholder="••••" autocomplete="off" autocapitalize="none" spellcheck="false" readonly />
+    <div class="pin-err" id="pin-err"></div>
+    <div class="keypad" id="keypad">
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+      <button data-k="clear">✕</button><button data-k="0">0</button><button data-k="back">⌫</button>
+    </div>
+    <button class="btn block" id="pin-submit">Unlock</button>
+  </div>
+</div>
+
+<!-- ============ App ============ -->
+<div class="app" id="app" style="display:none">
+  <aside class="side">
+    <div class="brand"><h1>Saaj Saaries</h1><p>Tardal, Ichalkaranji</p></div>
+    <nav class="nav" id="nav">
+      <button data-view="home" class="active"><span class="ic">🏠</span><span>Home</span></button>
+      <button data-view="bills"><span class="ic">🧾</span><span>Bills / Invoices</span></button>
+      <button data-view="ledger"><span class="ic">📒</span><span>Party Ledger</span></button>
+      <button data-view="dues"><span class="ic">⏰</span><span>Due Bills</span></button>
+      <button data-view="parties"><span class="ic">👥</span><span>Parties</span></button>
+      <button data-view="products"><span class="ic">🧵</span><span>Products</span></button>
+      <button data-view="quotations"><span class="ic">✍️</span><span>Quotations</span></button>
+      <button data-view="challans"><span class="ic">🚚</span><span>Delivery Challans</span></button>
+      <button data-view="payments"><span class="ic">💰</span><span>Payments</span></button>
+      <button data-view="settings"><span class="ic">⚙️</span><span>Settings</span></button>
+    </nav>
+    <div class="foot">🔒 AES‑256 encrypted · live sync</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tb-left">
+        <button class="back-btn" id="btn-back">‹</button>
+        <h2 id="view-title">Home</h2>
+      </div>
+      <div class="top-actions">
+        <span class="save-pill" id="save-status">● Starting…</span>
+        <button class="btn ghost sm desk" id="btn-backup">⬇ Backup</button>
+        <button class="btn ghost sm desk" id="btn-restore">⬆ Restore</button>
+        <button class="btn ghost sm desk" id="btn-logout">🔒 Lock</button>
+      </div>
+    </div>
+    <div class="view" id="view"></div>
+  </div>
+</div>
+
+<!-- ============ Bottom nav + FAB ============ -->
+<nav class="bottomnav" id="bottomnav">
+  <div class="bn">
+    <button data-view="home" class="active"><span class="bi">🏠</span>Home</button>
+    <button data-view="bills"><span class="bi">🧾</span>Bills</button>
+    <button data-view="ledger"><span class="bi">📒</span>Ledger</button>
+    <button data-view="parties"><span class="bi">👥</span>Parties</button>
+    <button data-action="more-menu"><span class="bi">☰</span>More</button>
+  </div>
+</nav>
+<button class="fab" id="fab" data-action="add-bill">＋ New Bill</button>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div id="print-area"></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="restore-file" accept="application/json" style="display:none" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+<script>
+/* ================= Helpers ================= */
+const DB_KEY = 'saaj_saaries_billing_v1';
+const AUTH_KEY = 'saaj_auth_session_v1';
+const DEFAULT_PIN = '9696';
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const money = n => '₹' + (Number(n)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const money0 = n => '₹' + Math.round(Number(n)||0).toLocaleString('en-IN');
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = () => new Date().toISOString().slice(0,10);
+const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '';
+const statusTag = st => st==='paid'?'<span class="tag paid">Paid</span>': st==='partial'?'<span class="tag partial">Partial</span>':'<span class="tag unpaid">Unpaid</span>';
+const store = { get:k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+                set:(k,v)=>{ try{ localStorage.setItem(k,v); }catch(e){} },
+                remove:k=>{ try{ localStorage.removeItem(k); }catch(e){} } };
+const sstore = { get:k=>{ try{ return sessionStorage.getItem(k); }catch(e){ return null; } },
+                 set:(k,v)=>{ try{ sessionStorage.setItem(k,v); }catch(e){} },
+                 remove:k=>{ try{ sessionStorage.removeItem(k); }catch(e){} } };
+let _toastT=null;
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_toastT); _toastT=setTimeout(()=>t.classList.remove('show'),2200); }
+
+function defaults(){
+  return {
+    settings:{businessName:'Saaj Saaries Textiles', address:'Tardal, Ichalkaranji, Maharashtra', gstin:'', phone:'', pin:DEFAULT_PIN,
+      billPrefix:'INV', billCounter:1, quotePrefix:'QUO', quoteCounter:1, challanPrefix:'CHL', challanCounter:1, gstPercent:5,
+      accountName:'Saaj Saaries Textiles', bankName:'', accountNo:'', ifsc:'', upi:'',
+      defaultTerms:'1. Goods once sold will not be taken back or exchanged.\n2. Interest @18% p.a. will be charged on delayed payments.\n3. All disputes subject to Ichalkaranji jurisdiction.\n4. E & O E.'},
+    parties:[{id:'p1',name:'Mahatrudr',address:'',phone:'',gstin:''},
+            {id:'p2',name:'Dilip Mangate',address:'',phone:'',gstin:''},
+            {id:'p3',name:'DP Traders',address:'',phone:'',gstin:''}],
+    products:[{id:'pr1',name:'Cotton Saree',hsn:'5208',unit:'pcs',rate:450},
+              {id:'pr2',name:'Silk Saree',hsn:'5007',unit:'pcs',rate:1850},
+              {id:'pr3',name:'Handloom Saree',hsn:'5208',unit:'pcs',rate:480},
+              {id:'pr4',name:'Dress Material',hsn:'5209',unit:'set',rate:320}],
+    bills:[], quotations:[], challans:[], payments:[]
+  };
+}
+
+/* ================= Encryption (unchanged) ================= */
+const enc = new TextEncoder(), dec = new TextDecoder();
+const bufToB64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const b64ToBuf = b64 => Uint8Array.from(atob(b64), c=>c.charCodeAt(0)).buffer;
+async function deriveKey(pin, saltB64){
+  const base = await crypto.subtle.importKey('raw', enc.encode('saaj-saaries::'+pin), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2', salt:b64ToBuf(saltB64), iterations:150000, hash:'SHA-256'},
+                                 base, {name:'AES-GCM', length:256}, true, ['encrypt','decrypt']);
+}
+async function encryptVault(obj, key, saltB64){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode(JSON.stringify(obj)));
+  return {v:1, salt:saltB64, iv:bufToB64(iv.buffer), ct:bufToB64(ct)};
+}
+async function decryptVault(bundle, key){
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:b64ToBuf(bundle.iv)}, key, b64ToBuf(bundle.ct));
+  return JSON.parse(dec.decode(pt));
+}
+
+/* ================= Firebase (unchanged) ================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyDcqvjt2gnztCv-GKkA4-Xo0rAsfB_BeLs",
+  authDomain: "saaj-saaries.firebaseapp.com",
+  databaseURL: "https://saaj-saaries-default-rtdb.firebaseio.com",
+  projectId: "saaj-saaries",
+  storageBucket: "saaj-saaries.firebasestorage.app",
+  messagingSenderId: "810345516090",
+  appId: "1:810345516090:web:aa9abc7014861e94d63903",
+  measurementId: "G-QZJE3PG27J"
+};
+const RTDB_PATH = 'billing/vault';
+let fbApp=null, fbDB=null, fbMod=null, firebaseOk=false, vaultRemote=null;
+async function loadFirebase(){
+  try{
+    const appMod = await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js');
+    fbMod       = await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js');
+    fbApp = appMod.initializeApp(firebaseConfig);
+    fbDB  = fbMod.getDatabase(fbApp);
+    try{ const authMod = await import('https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js');
+         await authMod.signInAnonymously(authMod.getAuth(fbApp)); }catch(e){}
+    firebaseOk = true; return true;
+  }catch(e){ firebaseOk = false; return false; }
+}
+async function fetchRemote(){ try{ const s=await fbMod.get(fbMod.ref(fbDB,RTDB_PATH)); return s.exists()?s.val():null; }catch(e){ return null; } }
+async function pushRemote(b){ await fbMod.set(fbMod.ref(fbDB,RTDB_PATH),{v:1,updatedAt:b.updatedAt,vault:{v:b.v,salt:b.salt,iv:b.iv,ct:b.ct}}); }
+function subscribeRemote(cb){ fbMod.onValue(fbMod.ref(fbDB,RTDB_PATH), s=>{ if(s.exists()) cb(s.val()); }, ()=>setSaveStatus('offline')); }
+
+/* ================= State ================= */
+function ensureIds(arr){ (arr||[]).forEach(x=>{ if(x&&typeof x==='object'&&!x.id) x.id=uid(); }); return arr||[]; }
+function mergeData(s){
+  const d=defaults();
+  if(!s||typeof s!=='object') return d;
+  d.settings=Object.assign({},d.settings,s.settings||{});
+  ['parties','products','bills','quotations','challans','payments'].forEach(k=>{ if(Array.isArray(s[k])) d[k]=ensureIds(s[k]); });
+  return d;
+}
+let state = defaults();
+let currentKey=null, currentSalt=null, vaultLocal=null;
+let _dirty=false,_saving=false,_again=false,_timer=null,_lastLocalAt=0,_currentView='home';
+
+function save(){ _dirty=true; setSaveStatus('busy'); if(_saving){_again=true;return;} clearTimeout(_timer); _timer=setTimeout(flushSave,450); }
+async function flushSave(){
+  if(_saving){_again=true;return;}
+  if(!currentKey||!state){_dirty=false;return;}
+  _saving=true;
+  try{
+    const b=await encryptVault(state,currentKey,currentSalt);
+    b.updatedAt=Date.now(); _lastLocalAt=b.updatedAt; vaultLocal=b;
+    store.set(DB_KEY,JSON.stringify(b));
+    if(firebaseOk){ try{ await pushRemote(b); setSaveStatus('ok',new Date(b.updatedAt)); }catch(e){ setSaveStatus('offline'); } }
+    else setSaveStatus('offline');
+    _dirty=false;
+  }catch(e){ setSaveStatus('offline'); }
+  finally{ _saving=false; if(_again){_again=false;save();} }
+}
+window.addEventListener('pagehide',()=>{ if(_dirty&&currentKey) flushSave(); });
+function setSaveStatus(mode,when){
+  const el=document.getElementById('save-status'); if(!el) return;
+  const t=when?' · '+when.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}):'';
+  if(mode==='busy'){el.className='save-pill busy';el.textContent='● Saving…';}
+  else if(mode==='ok'){el.className='save-pill ok';el.textContent='✓ Saved'+t;}
+  else if(mode==='cloud'){el.className='save-pill ok';el.textContent='⇄ Updated'+t;}
+  else if(mode==='offline'){el.className='save-pill warn';el.textContent='⚠ Offline';}
+  else if(mode==='mismatch'){el.className='save-pill warn';el.textContent='⚠ PIN mismatch';}
+}
+const S=()=>state.settings;
+const partyName=id=>{ const p=state.parties.find(x=>x.id===id); return p?p.name:'—'; };
+const partyById=id=>state.parties.find(x=>x.id===id)||{};
+
+/* ================= Auth ================= */
+const MAX_ATTEMPTS=5;
+let pinAttempts=Number(store.get('saaj_pin_attempts')||0);
+let pinLockUntil=Number(store.get('saaj_pin_lock_until')||0);
+let lockTimer=null, IDLE_MS=15*60*1000, idleTimer=null;
+
+function showPin(){
+  document.getElementById('pin-wrap').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('bottomnav').style.display='';
+  document.getElementById('bottomnav').style.visibility='hidden';
+  document.getElementById('fab').style.visibility='hidden';
+  const inp=document.getElementById('pin-input'); inp.value=''; inp.disabled=false;
+  document.getElementById('pin-submit').disabled=false;
+  if(pinLockUntil>Date.now()) startLockTimer();
+}
+function showApp(){
+  document.getElementById('pin-wrap').style.display='none';
+  document.getElementById('app').style.display='';
+  document.getElementById('bottomnav').style.visibility='visible';
+  document.getElementById('fab').style.visibility='visible';
+  setView('home'); resetIdle();
+}
+async function saveSession(){
+  try{ const raw=await crypto.subtle.exportKey('raw',currentKey);
+       sstore.set(AUTH_KEY, JSON.stringify({salt:currentSalt,key:bufToB64(raw)})); }catch(e){}
+}
+function failAttempt(){
+  pinAttempts++; store.set('saaj_pin_attempts',pinAttempts);
+  const left=MAX_ATTEMPTS-pinAttempts; const err=document.getElementById('pin-err');
+  if(left<=0){ pinLockUntil=Date.now()+60000; store.set('saaj_pin_lock_until',pinLockUntil);
+    pinAttempts=0; store.set('saaj_pin_attempts',0); startLockTimer(); }
+  else err.textContent='Wrong PIN — '+left+' attempt'+(left>1?'s':'')+' left';
+  document.getElementById('pin-input').value='';
+}
+function startLockTimer(){
+  const err=document.getElementById('pin-err'), inp=document.getElementById('pin-input'), btn=document.getElementById('pin-submit');
+  inp.disabled=true; btn.disabled=true;
+  clearInterval(lockTimer);
+  lockTimer=setInterval(()=>{ const left=Math.ceil((pinLockUntil-Date.now())/1000);
+    if(left<=0){ clearInterval(lockTimer); err.textContent=''; inp.disabled=false; btn.disabled=false; store.remove('saaj_pin_lock_until'); pinLockUntil=0; }
+    else err.textContent='Too many wrong tries — wait '+left+'s'; },300);
+}
+async function tryPin(){
+  const pin=document.getElementById('pin-input').value.trim();
+  const err=document.getElementById('pin-err');
+  if(pinLockUntil>Date.now()) return;
+  if(!pin){ err.textContent='Enter the PIN'; return; }
+  err.textContent='Checking…';
+  const localB=(vaultLocal&&vaultLocal.salt)?vaultLocal:null;
+  const remoteB=(vaultRemote&&vaultRemote.vault&&vaultRemote.vault.salt)?vaultRemote.vault:null;
+  const pick=(localB&&remoteB)?((Number(vaultRemote.updatedAt)||0)>(Number(vaultLocal.updatedAt)||0)?remoteB:localB):(localB||remoteB);
+  if(pick){
+    try{
+      const key=await deriveKey(pin,pick.salt);
+      const obj=await decryptVault(pick,key);
+      state=mergeData(obj); currentKey=key; currentSalt=pick.salt;
+      _lastLocalAt=Math.max(Number(vaultLocal&&vaultLocal.updatedAt)||0,Number(vaultRemote&&vaultRemote.updatedAt)||0);
+      pinAttempts=0; store.set('saaj_pin_attempts',0);
+      await saveSession();
+      if(pick===remoteB){ vaultLocal=Object.assign({},pick,{updatedAt:vaultRemote.updatedAt}); store.set(DB_KEY,JSON.stringify(vaultLocal)); }
+      err.textContent=''; showApp(); if(firebaseOk) checkRemoteAfterUnlock(); return;
+    }catch(e){ failAttempt(); return; }
+  }
+  /* first run */
+  if(pin!==DEFAULT_PIN){ failAttempt(); return; }
+  currentSalt=bufToB64(crypto.getRandomValues(new Uint8Array(16)).buffer);
+  currentKey=await deriveKey(pin,currentSalt);
+  state=defaults(); state.settings.pin=pin;
+  await flushSave(); await saveSession();
+  err.textContent=''; showApp();
+}
+async function checkRemoteAfterUnlock(){
+  try{ const r=await fetchRemote(); if(!r||!r.vault) return;
+    if((Number(r.updatedAt)||0)>_lastLocalAt) handleRemote(r); }catch(e){}
+}
+function handleRemote(remote){
+  if(!currentKey||!remote||!remote.vault) return;
+  const at=Number(remote.updatedAt)||0;
+  if(at<=_lastLocalAt) return;
+  decryptVault(remote.vault,currentKey).then(obj=>{
+    state=mergeData(obj); _lastLocalAt=at;
+    vaultLocal=Object.assign({},remote.vault,{updatedAt:at});
+    store.set(DB_KEY,JSON.stringify(vaultLocal));
+    setSaveStatus('cloud',new Date(at));
+    if(!document.getElementById('overlay').classList.contains('show')) setView(_currentView);
+  }).catch(()=>setSaveStatus('mismatch'));
+}
+function resetIdle(){ clearTimeout(idleTimer); idleTimer=setTimeout(lockNow, IDLE_MS); }
+function lockNow(){ sstore.remove(AUTH_KEY); currentKey=null; closeModal(); showPin(); }
+['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{ if(currentKey) resetIdle(); },{passive:true}));
+document.getElementById('pin-submit').addEventListener('click',tryPin);
+document.getElementById('pin-input').addEventListener('keydown',e=>{ if(e.key==='Enter') tryPin(); });
+document.getElementById('keypad').addEventListener('click',e=>{
+  const b=e.target.closest('[data-k]'); if(!b) return;
+  const inp=document.getElementById('pin-input'), k=b.dataset.k;
+  if(k==='clear') inp.value='';
+  else if(k==='back') inp.value=inp.value.slice(0,-1);
+  else if(inp.value.length<12) inp.value+=k;
+  if(inp.value.length>=4 && k!=='back' && k!=='clear'){ /* no auto submit, user taps Unlock */ }
+});
+document.getElementById('btn-logout').addEventListener('click',lockNow);
+
+/* ================= Money math ================= */
+function docTotals(doc){
+  let sub=0; (doc.items||[]).forEach(it=>{ sub+=(Number(it.qty)||0)*(Number(it.rate)||0); });
+  if(!isFinite(sub)) sub=0;
+  const gst=sub*(Number(doc.gst)||0)/100, disc=Number(doc.discount)||0;
+  return {sub,gst,disc,grand:sub+gst-disc};
+}
+/* bill-level received = paidAmount (or full when marked paid) */
+function billReceived(b){ const t=docTotals(b).grand; return b.status==='paid'?t:(Number(b.paidAmount)||0); }
+function billDue(b){ return Math.max(0, docTotals(b).grand - billReceived(b)); }
+/* party ledger figures: bills + separately recorded payments */
+function partyStats(pid){
+  let billed=0, onBill=0, extra=0;
+  state.bills.forEach(b=>{ if(b.partyId!==pid) return; billed+=docTotals(b).grand; onBill+=billReceived(b); });
+  state.payments.forEach(p=>{ if(p.partyId===pid) extra+=Number(p.amount)||0; });
+  return {billed, received:onBill+extra, onBill, extra, outstanding: billed-onBill-extra};
+}
+function partyOutstanding(pid){ return partyStats(pid).outstanding; }
+function amountInWords(num){
+  let n=Math.round(Number(num)||0);
+  if(n<=0) return 'Zero Rupees Only';
+  const a=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const b=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  const two=x=>x<20?a[x]:b[Math.floor(x/10)]+(x%10?' '+a[x%10]:'');
+  const three=x=>(x>=100?a[Math.floor(x/100)]+' Hundred'+(x%100?' ':''):'')+(x%100?two(x%100):'');
+  let s=''; const cr=Math.floor(n/10000000); n%=10000000;
+  const lk=Math.floor(n/100000); n%=100000; const th=Math.floor(n/1000); n%=1000;
+  if(cr)s+=three(cr)+' Crore '; if(lk)s+=two(lk)+' Lakh '; if(th)s+=two(th)+' Thousand '; if(n)s+=three(n);
+  return s.trim()+' Rupees Only';
+}
+
+/* ================= Navigation ================= */
+const TITLES={home:'Home',bills:'Bills / Invoices',ledger:'Party Ledger',dues:'Due Bills',parties:'Parties',products:'Products',quotations:'Quotations',challans:'Delivery Challans',payments:'Payments',settings:'Settings'};
+const BOTTOM=['home','bills','ledger','parties'];
+const FAB_BY_VIEW={bills:'add-bill',parties:'add-party',products:'add-product',quotations:'add-quotation',challans:'add-challan',payments:'add-pay',home:'add-bill',ledger:null,dues:'add-pay',settings:null};
+const FAB_LABEL={'add-bill':'＋ New Bill','add-party':'＋ Add Party','add-product':'＋ Add Product','add-quotation':'＋ New Quotation','add-challan':'＋ New Challan','add-pay':'＋ Payment'};
+let _viewArg=null;
+function setView(v,arg){
+  _currentView=v; _viewArg=arg||null;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  document.querySelectorAll('#bottomnav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  document.getElementById('view-title').textContent=TITLES[v]||v;
+  document.getElementById('btn-back').style.display = (v==='home')?'none':'';
+  const fab=document.getElementById('fab'), act=FAB_BY_VIEW[v];
+  if(act){ fab.dataset.action=act; fab.textContent=FAB_LABEL[act]; fab.style.display=''; }
+  else fab.style.display='none';
+  document.getElementById('view').scrollTop=0; window.scrollTo(0,0);
+  ({home:renderHome,bills:()=>renderDocs('bill'),ledger:renderLedgerList,dues:renderDues,parties:renderParties,products:renderProducts,
+    quotations:()=>renderDocs('quotation'),challans:()=>renderDocs('challan'),payments:renderPayments,settings:renderSettings}[v]||renderHome)(arg);
+}
+document.getElementById('nav').addEventListener('click',e=>{ const b=e.target.closest('[data-view]'); if(b) setView(b.dataset.view); });
+document.getElementById('bottomnav').addEventListener('click',e=>{ const b=e.target.closest('[data-view]'); if(b) setView(b.dataset.view); });
+document.getElementById('btn-back').addEventListener('click',()=>setView('home'));
+
+/* ================= HOME (kiosk tiles) ================= */
+function renderHome(){
+  let billed=0,received=0;
+  state.bills.forEach(b=>{ billed+=docTotals(b).grand; received+=billReceived(b); });
+  state.payments.forEach(p=>received+=Number(p.amount)||0);
+  const outstanding=billed-received;
+  const dueCount=state.bills.filter(b=>billDue(b)>0.5).length;
+  const tm=new Date().toISOString().slice(0,7);
+  let monthTotal=0,monthCount=0;
+  state.bills.forEach(b=>{ if((b.date||'').slice(0,7)===tm){ monthTotal+=docTotals(b).grand; monthCount++; } });
+
+  const recent=[...state.bills].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id>a.id?1:-1)).slice(0,4);
+  const recentHtml = recent.length ? recent.map(b=>{
+    const t=docTotals(b).grand, due=billDue(b);
+    return `<div class="row-card" data-action="pdf-bill" data-id="${b.id}">
+      <div class="rc-top">
+        <div style="min-width:0"><div class="rc-title">${esc(partyName(b.partyId))}</div>
+          <div class="rc-sub">${esc(b.number)} · ${fmtDate(b.date)}</div></div>
+        <div><div class="rc-amt">${money0(t)}</div>
+          <div style="text-align:right;margin-top:4px">${due>0.5?'<span class="tag due">Due '+money0(due)+'</span>':'<span class="tag paid">Paid</span>'}</div></div>
+      </div></div>`;}).join('')
+    : `<div class="empty"><span class="em">🧾</span>No bills yet. Tap <b>New Bill</b> to start.</div>`;
+
+  document.getElementById('view').innerHTML=`
+    <div class="hero">
+      <div class="hh">Outstanding to collect</div>
+      <div class="hv">${money0(outstanding)}</div>
+      <div class="hsub"><span>📅 This month: <b>${money0(monthTotal)}</b> (${monthCount} bills)</span><span>⏰ ${dueCount} due bill${dueCount===1?'':'s'}</span></div>
+    </div>
+    <div class="tiles">
+      <button class="tile big" data-action="add-bill"><span class="em">🧾</span><div><div class="tl">New Bill</div><div class="ts">Make & send invoice on WhatsApp</div></div></button>
+      <button class="tile" data-view-go="ledger"><span class="em">📒</span><span class="tl">Party Ledger</span><span class="ts">Party-wise account</span></button>
+      <button class="tile" data-view-go="dues"><span class="em">⏰</span><span class="tl">Due Bills</span><span class="ts">${dueCount} pending</span></button>
+      <button class="tile" data-action="add-pay"><span class="em">💰</span><span class="tl">Take Payment</span><span class="ts">Record receipt</span></button>
+      <button class="tile" data-view-go="parties"><span class="em">👥</span><span class="tl">Parties</span><span class="ts">${state.parties.length} saved</span></button>
+      <button class="tile" data-action="add-challan"><span class="em">🚚</span><span class="tl">New Challan</span><span class="ts">Delivery note</span></button>
+      <button class="tile" data-action="add-quotation"><span class="em">✍️</span><span class="tl">Quotation</span><span class="ts">Send a quote</span></button>
+      <button class="tile" data-view-go="products"><span class="em">🧵</span><span class="tl">Products</span><span class="ts">${state.products.length} items</span></button>
+      <button class="tile" data-view-go="settings"><span class="em">⚙️</span><span class="tl">Settings</span><span class="ts">Shop & bank</span></button>
+    </div>
+    <div class="sec-title">Recent Bills</div>
+    <div class="list">${recentHtml}</div>`;
+}
+
+/* ================= PARTIES ================= */
+let _partySearch='';
+function renderParties(){
+  const q=_partySearch.toLowerCase();
+  const list=state.parties.filter(p=>!q||(p.name||'').toLowerCase().includes(q)||(p.phone||'').includes(q));
+  const rows=list.length? list.map(p=>{
+    const out=partyOutstanding(p.id);
+    return `<div class="row-card">
+      <div class="rc-top">
+        <div style="min-width:0"><div class="rc-title">${esc(p.name)}</div>
+          <div class="rc-sub">${esc(p.phone)||'no phone'}${p.gstin?' · '+esc(p.gstin):''}</div></div>
+        <div class="rc-amt" style="color:${out>0.5?'#b91c1c':'#166534'}">${money0(out)}</div>
+      </div>
+      <div class="rc-actions">
+        <button class="btn sm" data-action="ledger-party" data-id="${p.id}">📒 Ledger</button>
+        <button class="btn ghost sm" data-action="edit-party" data-id="${p.id}">✏️ Edit</button>
+        ${p.phone?`<button class="btn wa sm" data-action="wa-party" data-id="${p.id}">💬 WhatsApp</button>`:''}
+        <button class="btn danger sm" data-action="del-party" data-id="${p.id}">🗑</button>
+      </div></div>`;}).join('')
+    : `<div class="empty"><span class="em">👥</span>No parties found</div>`;
+  document.getElementById('view').innerHTML=`
+    <div class="toolbar"><div class="search"><input id="q-party" placeholder="Search party or phone" value="${esc(_partySearch)}"></div>
+      <button class="btn" data-action="add-party">＋ Add</button></div>
+    <div class="list">${rows}</div>`;
+  const qi=document.getElementById('q-party');
+  qi.addEventListener('input',()=>{ _partySearch=qi.value; const pos=qi.selectionStart; renderParties(); const n=document.getElementById('q-party'); n.focus(); n.setSelectionRange(pos,pos); });
+}
+function partyForm(id){
+  const p=id?state.parties.find(x=>x.id===id):{name:'',phone:'',gstin:'',address:''};
+  if(id&&!p){ renderParties(); return; }
+  openModal((id?'Edit':'Add')+' Party',`
+    <label>Party Name *</label><input id="f-name" value="${esc(p.name)}" placeholder="Customer / shop name">
+    <label>WhatsApp / Phone Number</label><input id="f-phone" type="tel" inputmode="tel" value="${esc(p.phone)}" placeholder="e.g. 9876543210">
+    <div class="hint">Used for sending bills on WhatsApp. 10‑digit number is fine — 91 is added automatically.</div>
+    <label>GSTIN (optional)</label><input id="f-gstin" value="${esc(p.gstin)}" placeholder="27AAAAA0000A1Z5">
+    <label>Address</label><textarea id="f-address" placeholder="Billing / shipping address">${esc(p.address)}</textarea>
+  `,()=>{
+    const name=document.getElementById('f-name').value.trim();
+    if(!name){ toast('Party name is required'); return; }
+    const data={name,phone:document.getElementById('f-phone').value.trim(),gstin:document.getElementById('f-gstin').value.trim(),address:document.getElementById('f-address').value.trim()};
+    if(id) Object.assign(state.parties.find(x=>x.id===id),data); else state.parties.push({id:uid(),...data});
+    save(); closeModal(); toast('Party saved'); setView(_currentView===
+      'parties'?'parties':_currentView);
+  });
+}
+
+/* ================= PARTY LEDGER ================= */
+let _ledgerSearch='';
+function renderLedgerList(){
+  const q=_ledgerSearch.toLowerCase();
+  const rows=state.parties.map(p=>({p,st:partyStats(p.id)}))
+    .filter(x=>!q||x.p.name.toLowerCase().includes(q))
+    .sort((a,b)=>b.st.outstanding-a.st.outstanding);
+  let totalOut=0; rows.forEach(r=>totalOut+=r.st.outstanding);
+  const html=rows.length? rows.map(({p,st})=>`
+    <div class="row-card" data-action="ledger-party" data-id="${p.id}">
+      <div class="rc-top">
+        <div style="min-width:0"><div class="rc-title">${esc(p.name)}</div>
+          <div class="rc-sub">Billed ${money0(st.billed)} · Received ${money0(st.received)}</div></div>
+        <div><div class="rc-amt" style="color:${st.outstanding>0.5?'#b91c1c':'#166534'}">${money0(st.outstanding)}</div>
+        <div style="font-size:11px;color:var(--muted);text-align:right">${st.outstanding>0.5?'outstanding':'settled'}</div></div>
+      </div></div>`).join('')
+    : `<div class="empty"><span class="em">📒</span>No parties yet</div>`;
+  document.getElementById('view').innerHTML=`
+    <div class="hero" style="background:linear-gradient(135deg,#334155,#0f172a)">
+      <div class="hh">Total outstanding — all parties</div><div class="hv">${money0(totalOut)}</div>
+      <div class="hsub"><span>${rows.length} parties</span><span>Tap a party for full ledger, PDF & WhatsApp</span></div>
+    </div>
+    <div class="toolbar"><div class="search"><input id="q-led" placeholder="Search party" value="${esc(_ledgerSearch)}"></div></div>
+    <div class="list">${html}</div>`;
+  const qi=document.getElementById('q-led');
+  qi.addEventListener('input',()=>{ _ledgerSearch=qi.value; const pos=qi.selectionStart; renderLedgerList(); const n=document.getElementById('q-led'); n.focus(); n.setSelectionRange(pos,pos); });
+}
+/* build chronological running-balance ledger entries */
+function ledgerEntries(pid){
+  const e=[];
+  state.bills.filter(b=>b.partyId===pid).forEach(b=>{
+    const t=docTotals(b).grand;
+    e.push({date:b.date,type:'bill',ref:b.number,desc:'Bill / Tax Invoice',debit:t,credit:0,id:b.id,status:b.status});
+    const onBill=billReceived(b);
+    if(onBill>0.005) e.push({date:b.date,type:'billpay',ref:b.number,desc:'Received against '+b.number,debit:0,credit:onBill});
+  });
+  state.payments.filter(p=>p.partyId===pid).forEach(p=>{
+    e.push({date:p.date,type:'pay',ref:p.note||'',desc:'Payment received ('+(p.mode||'—')+')'+(p.note?' · '+p.note:''),debit:0,credit:Number(p.amount)||0,id:p.id});
+  });
+  e.sort((a,b)=>(a.date||'').localeCompare(b.date||'') || (a.debit?-1:1));
+  let bal=0; e.forEach(x=>{ bal+=x.debit-x.credit; x.balance=bal; });
+  return e;
+}
+function partyLedger(pid){
+  const p=state.parties.find(x=>x.id===pid); if(!p) return;
+  const st=partyStats(pid), ent=ledgerEntries(pid);
+  const rows=ent.length? ent.map(x=>`<tr>
+      <td style="white-space:nowrap">${fmtDate(x.date)}</td>
+      <td>${esc(x.desc)}${x.ref&&x.type==='bill'?'<div style="font-size:11px;color:#64748b">'+esc(x.ref)+'</div>':''}</td>
+      <td style="text-align:right">${x.debit?money0(x.debit):'—'}</td>
+      <td style="text-align:right;color:#166534">${x.credit?money0(x.credit):'—'}</td>
+      <td style="text-align:right;font-weight:700">${money0(x.balance)}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="empty">No transactions yet</td></tr>';
+  const dueBills=state.bills.filter(b=>b.partyId===pid&&billDue(b)>0.5);
+  const dueHtml=dueBills.length? `<div class="sec-title" style="margin-top:14px">Pending Bills</div><div class="list">`+dueBills.map(b=>`
+      <div class="row-card"><div class="rc-top">
+        <div><div class="rc-title">${esc(b.number)}</div><div class="rc-sub">${fmtDate(b.date)} · Total ${money0(docTotals(b).grand)}</div></div>
+        <div class="rc-amt" style="color:#b91c1c">${money0(billDue(b))}</div></div>
+        <div class="rc-actions">
+          <button class="btn ghost sm" data-action="pdf-bill" data-id="${b.id}">👁 View</button>
+          <button class="btn wa sm" data-action="wa-bill" data-id="${b.id}">💬 Send</button>
+        </div></div>`).join('')+`</div>` : '';
+
+  openModal('Ledger — '+esc(p.name),`
+    <div class="stats" style="margin-bottom:12px">
+      <div class="stat"><div class="k">Total Billed</div><div class="v">${money0(st.billed)}</div></div>
+      <div class="stat"><div class="k">Received</div><div class="v" style="color:#166534">${money0(st.received)}</div></div>
+      <div class="stat"><div class="k">Outstanding</div><div class="v" style="color:${st.outstanding>0.5?'#b91c1c':'#166534'}">${money0(st.outstanding)}</div></div>
+    </div>
+    <div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">
+      ${esc(p.phone)||'No phone'}${p.gstin?' · GSTIN '+esc(p.gstin):''}${p.address?'<br>'+esc(p.address):''}
+    </div>
+    <div class="sec-title">Account Statement</div>
+    <div class="tscroll"><table>
+      <thead><tr><th>Date</th><th>Particulars</th><th style="text-align:right">Debit</th><th style="text-align:right">Credit</th><th style="text-align:right">Balance</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>
+    ${dueHtml}
+  `, null, {wide:true, hideSave:true, extraButtons:`
+      <button class="btn ghost" data-action="ledger-pdf" data-id="${pid}">🖨 Print / PDF</button>
+      <button class="btn wa" data-action="ledger-wa" data-id="${pid}">💬 Send on WhatsApp</button>
+      <button class="btn" data-action="pay-for" data-id="${pid}">💰 Add Payment</button>`});
+}
+
+/* ledger statement print document */
+function buildLedgerHtml(pid){
+  const p=state.parties.find(x=>x.id===pid); if(!p) return null;
+  const s=S(), st=partyStats(pid), ent=ledgerEntries(pid);
+  const rows=ent.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(x.desc)}</td><td style="text-align:right">${x.debit?money(x.debit):''}</td><td style="text-align:right">${x.credit?money(x.credit):''}</td><td style="text-align:right">${money(x.balance)}</td></tr>`).join('')
+    || '<tr><td colspan="5" style="text-align:center">No transactions</td></tr>';
+  return `<div class="doc">
+    <div class="dh">
+      <div><div class="co">${esc(s.businessName)}</div>
+        <div style="font-size:12px;color:#334">${esc(s.address)}</div>
+        ${s.gstin?`<div style="font-size:12px">GSTIN: ${esc(s.gstin)}</div>`:''}
+        ${s.phone?`<div style="font-size:12px">Ph: ${esc(s.phone)}</div>`:''}</div>
+      <div class="meta"><div style="font-size:16px;font-weight:800;color:#0f766e">ACCOUNT STATEMENT</div>
+        <div><b>As on:</b> ${fmtDate(today())}</div></div>
+    </div>
+    <div class="pt"><div><b>Party</b>${esc(p.name)}${p.address?'<br>'+esc(p.address):''}${p.gstin?'<br>GSTIN: '+esc(p.gstin):''}${p.phone?'<br>Ph: '+esc(p.phone):''}</div><div></div></div>
+    <table><thead><tr><th>Date</th><th>Particulars</th><th style="text-align:right">Debit</th><th style="text-align:right">Credit</th><th style="text-align:right">Balance</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="rt">
+      <div><span>Total Billed</span><span>${money(st.billed)}</span></div>
+      <div><span>Total Received</span><span>${money(st.received)}</span></div>
+      <div class="g"><span>Closing Balance</span><span>${money(st.outstanding)}</span></div></div>
+    <div class="words"><b>In words:</b> ${esc(amountInWords(st.outstanding))}</div>
+    ${(s.bankName||s.upi)?`<div class="bankbox"><b>Payment Details</b><br>${esc(s.accountName||s.businessName)}${s.bankName?' · '+esc(s.bankName):''}${s.accountNo?' · A/c '+esc(s.accountNo):''}${s.ifsc?' · IFSC '+esc(s.ifsc):''}${s.upi?'<br>UPI: '+esc(s.upi):''}</div>`:''}
+    <div class="sig"><div>Party Signature</div><div>For ${esc(s.businessName)}</div></div>
+  </div>`;
+}
+function previewLedger(pid){
+  const html=buildLedgerHtml(pid); if(!html) return;
+  const p=partyById(pid);
+  document.getElementById('print-area').innerHTML=html;
+  openModal('Statement — '+esc(p.name),`<div class="preview-doc">${html}</div>`,null,
+    {wide:true,hideSave:true,extraButtons:`
+      <button class="btn ghost" data-action="do-print">🖨 Print</button>
+      <button class="btn" data-action="ledger-savepdf" data-id="${pid}">⬇ Save PDF</button>
+      <button class="btn wa" data-action="ledger-wa" data-id="${pid}">💬 WhatsApp</button>`});
+}
+
+/* ================= DUE BILLS ================= */
+function renderDues(){
+  const due=state.bills.map(b=>({b,d:billDue(b)})).filter(x=>x.d>0.5)
+    .sort((a,b)=>(a.b.date||'').localeCompare(b.b.date||''));
+  let total=0; due.forEach(x=>total+=x.d);
+  const days=d=>{ if(!d) return ''; const n=Math.floor((Date.now()-new Date(d).getTime())/86400000); return n>0?n+' days old':'today'; };
+  const html=due.length? due.map(({b,d})=>`
+    <div class="row-card">
+      <div class="rc-top">
+        <div style="min-width:0"><div class="rc-title">${esc(partyName(b.partyId))}</div>
+          <div class="rc-sub">${esc(b.number)} · ${fmtDate(b.date)} · ${days(b.date)}</div></div>
+        <div><div class="rc-amt" style="color:#b91c1c">${money0(d)}</div>
+          <div style="font-size:11px;color:var(--muted);text-align:right">of ${money0(docTotals(b).grand)}</div></div>
+      </div>
+      <div class="rc-actions">
+        <button class="btn ghost sm" data-action="pdf-bill" data-id="${b.id}">👁 View</button>
+        <button class="btn wa sm" data-action="wa-remind" data-id="${b.id}">💬 Remind</button>
+        <button class="btn sm" data-action="settle-bill" data-id="${b.id}">💰 Received</button>
+      </div></div>`).join('')
+    : `<div class="empty"><span class="em">🎉</span>No pending dues. All bills settled!</div>`;
+  document.getElementById('view').innerHTML=`
+    <div class="hero" style="background:linear-gradient(135deg,#b91c1c,#7f1d1d)">
+      <div class="hh">Total pending</div><div class="hv">${money0(total)}</div>
+      <div class="hsub"><span>${due.length} unpaid bill${due.length===1?'':'s'}</span></div>
+    </div>
+    <div class="list">${html}</div>`;
+}
+
+/* ================= PRODUCTS ================= */
+let _prodSearch='';
+function renderProducts(){
+  const q=_prodSearch.toLowerCase();
+  const list=state.products.filter(p=>!q||p.name.toLowerCase().includes(q));
+  const rows=list.length? list.map(p=>`
+    <div class="row-card"><div class="rc-top">
+      <div><div class="rc-title">${esc(p.name)}</div><div class="rc-sub">${esc(p.hsn)?'HSN '+esc(p.hsn)+' · ':''}${esc(p.unit)||'pcs'}</div></div>
+      <div class="rc-amt">${money0(p.rate)}</div></div>
+      <div class="rc-actions">
+        <button class="btn ghost sm" data-action="edit-product" data-id="${p.id}">✏️ Edit</button>
+        <button class="btn danger sm" data-action="del-product" data-id="${p.id}">🗑 Delete</button>
+      </div></div>`).join('')
+    : `<div class="empty"><span class="em">🧵</span>No products found</div>`;
+  document.getElementById('view').innerHTML=`
+    <div class="toolbar"><div class="search"><input id="q-prod" placeholder="Search product" value="${esc(_prodSearch)}"></div>
+      <button class="btn" data-action="add-product">＋ Add</button></div>
+    <div class="list">${rows}</div>
+    <div class="panel" style="font-size:12px;color:var(--muted);margin-top:12px">💡 While making a bill, tap the item name box and pick a product — the rate fills in automatically.</div>`;
+  const qi=document.getElementById('q-prod');
+  qi.addEventListener('input',()=>{ _prodSearch=qi.value; const pos=qi.selectionStart; renderProducts(); const n=document.getElementById('q-prod'); n.focus(); n.setSelectionRange(pos,pos); });
+}
+function productForm(id){
+  const p=id?state.products.find(x=>x.id===id):{name:'',hsn:'',unit:'pcs',rate:''};
+  if(id&&!p){ renderProducts(); return; }
+  openModal((id?'Edit':'Add')+' Product',`
+    <label>Product Name *</label><input id="pf-name" value="${esc(p.name)}" placeholder="e.g. Cotton Saree">
+    <label>Rate (₹)</label><input id="pf-rate" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(p.rate)}">
+    <div class="row">
+      <div><label>HSN Code</label><input id="pf-hsn" value="${esc(p.hsn)}" placeholder="5208"></div>
+      <div><label>Unit</label><input id="pf-unit" value="${esc(p.unit)}" placeholder="pcs / mtr / set"></div>
+    </div>`,()=>{
+    const name=document.getElementById('pf-name').value.trim();
+    if(!name){ toast('Product name is required'); return; }
+    const data={name,hsn:document.getElementById('pf-hsn').value.trim(),unit:document.getElementById('pf-unit').value.trim(),rate:Number(document.getElementById('pf-rate').value)||0};
+    if(id) Object.assign(state.products.find(x=>x.id===id),data); else state.products.push({id:uid(),...data});
+    save(); closeModal(); toast('Product saved'); renderProducts();
+  });
+}
+
+/* ================= DOCS ================= */
+const DOC_TYPES={
+  bill:{label:'Bill',add:'＋ New Bill',emoji:'🧾'},
+  quotation:{label:'Quotation',add:'＋ New Quotation',emoji:'✍️'},
+  challan:{label:'Challan',add:'＋ New Challan',emoji:'🚚'}
+};
+const DOC_STORE=()=>({bill:state.bills,quotation:state.quotations,challan:state.challans});
+let _docSearch={bill:'',quotation:'',challan:''}, _docFilter='all';
+function renderDocs(kind){
+  const list=[...(DOC_STORE()[kind]||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const q=(_docSearch[kind]||'').toLowerCase();
+  let f=list.filter(d=>!q||(d.number||'').toLowerCase().includes(q)||partyName(d.partyId).toLowerCase().includes(q));
+  if(kind==='bill'&&_docFilter!=='all'){
+    f=f.filter(d=> _docFilter==='due'? billDue(d)>0.5 : _docFilter==='paid'? billDue(d)<=0.5 : (d.date||'').slice(0,7)===new Date().toISOString().slice(0,7));
+  }
+  const t=DOC_TYPES[kind];
+  const rows=f.length? f.map(d=>{
+    const tot=docTotals(d).grand, due=kind==='bill'?billDue(d):0;
+    const badge = kind==='bill' ? (due>0.5?`<span class="tag due">Due ${money0(due)}</span>`:'<span class="tag paid">Paid</span>')
+                : kind==='quotation' ? '<span class="tag quot">Quotation</span>' : '';
+    return `<div class="row-card">
+      <div class="rc-top">
+        <div style="min-width:0"><div class="rc-title">${esc(partyName(d.partyId))}</div>
+          <div class="rc-sub">${esc(d.number)} · ${fmtDate(d.date)}</div>
+          <div style="margin-top:5px">${badge}</div></div>
+        <div class="rc-amt">${kind==='challan'?((d.items||[]).length+' items'):money0(tot)}</div>
+      </div>
+      <div class="rc-actions">
+        <button class="btn ghost sm" data-action="pdf-${kind}" data-id="${d.id}">👁 View</button>
+        <button class="btn wa sm" data-action="wa-${kind}" data-id="${d.id}">💬 WhatsApp</button>
+        <button class="btn ghost sm" data-action="edit-${kind}" data-id="${d.id}">✏️</button>
+        <button class="btn danger sm" data-action="del-${kind}" data-id="${d.id}">🗑</button>
+      </div></div>`;}).join('')
+    : `<div class="empty"><span class="em">${t.emoji}</span>No ${t.label.toLowerCase()}s yet</div>`;
+  const chips = kind==='bill' ? `<div class="chips">
+      ${[['all','All'],['due','Unpaid'],['paid','Paid'],['month','This Month']].map(([k,l])=>`<button class="chip ${_docFilter===k?'on':''}" data-filter="${k}">${l}</button>`).join('')}
+    </div>` : '';
+  document.getElementById('view').innerHTML=`
+    <div class="toolbar"><div class="search"><input id="q-doc" placeholder="Search number or party" value="${esc(_docSearch[kind])}"></div>
+      <button class="btn" data-action="add-${kind}">${t.add}</button></div>
+    ${chips}
+    <div class="list">${rows}</div>`;
+  const qi=document.getElementById('q-doc');
+  qi.addEventListener('input',()=>{ _docSearch[kind]=qi.value; const pos=qi.selectionStart; renderDocs(kind); const n=document.getElementById('q-doc'); n.focus(); n.setSelectionRange(pos,pos); });
+  document.getElementById('view').querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{ _docFilter=b.dataset.filter; renderDocs(kind); }));
+}
+
+function emptyDoc(kind){
+  const s=S();
+  const base={id:uid(),partyId:state.parties[0]?state.parties[0].id:'',date:today(),notes:'',terms:'',items:[{desc:'',qty:'',rate:''}]};
+  if(kind==='challan') return {...base,number:s.challanPrefix+'-'+String(s.challanCounter).padStart(4,'0'),vehicle:'',destination:''};
+  if(kind==='quotation') return {...base,number:s.quotePrefix+'-'+String(s.quoteCounter).padStart(4,'0'),gst:s.gstPercent,discount:0,validUntil:'',status:'quotation'};
+  return {...base,number:s.billPrefix+'-'+String(s.billCounter).padStart(4,'0'),gst:s.gstPercent,discount:0,status:'unpaid',paidAmount:0};
+}
+function itemRow(it,isChallan){
+  const v=it||{};
+  return `<div class="ir">
+    <div class="ir-desc"><span class="mini">Item</span>
+      <input list="prod-list" placeholder="Type or pick item" value="${esc(v.desc||'')}" data-k="desc"></div>
+    <div class="ir-grid">
+      <div><span class="mini">Qty</span><input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" value="${esc(v.qty||'')}" data-k="qty"></div>
+      ${isChallan?'<div></div>':`<div><span class="mini">Rate ₹</span><input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" value="${esc(v.rate||'')}" data-k="rate"></div>`}
+      <button class="del" data-del>×</button>
+    </div>
+    ${isChallan?'':'<div style="display:flex;justify-content:flex-end;margin-top:6px"><span class="amt" data-amt>₹0.00</span></div>'}
+  </div>`;
+}
+function docForm(kind,id,presetParty){
+  const st=DOC_STORE();
+  const d=id?st[kind].find(x=>x.id===id):emptyDoc(kind);
+  if(!d){ toast('Record not found'); renderDocs(kind); return; }
+  if(!id&&presetParty) d.partyId=presetParty;
+  const isChallan=kind==='challan';
+  const partyOpts=state.parties.map(p=>`<option value="${p.id}" ${p.id===d.partyId?'selected':''}>${esc(p.name)}</option>`).join('');
+  const prodList=state.products.map(p=>`<option value="${esc(p.name)}">`).join('');
+  const itemHtml=(d.items&&d.items.length?d.items:[{}]).map(it=>itemRow(it,isChallan)).join('');
+  const numLabel=isChallan?'Challan No.':(kind==='quotation'?'Quotation No.':'Bill No.');
+  const extra = isChallan ? `
+      <div class="row">
+        <div><label>Vehicle / Transport</label><input id="f-vehicle" value="${esc(d.vehicle)}" placeholder="MH-09 ...."></div>
+        <div><label>Destination</label><input id="f-dest" value="${esc(d.destination)}"></div>
+      </div>`
+    : kind==='quotation' ? `
+      <div class="row">
+        <div><label>GST %</label><input id="f-gst" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.gst)}"></div>
+        <div><label>Valid Until</label><input id="f-valid" type="date" value="${esc(d.validUntil)}"></div>
+      </div>` : `
+      <div class="row">
+        <div><label>GST %</label><input id="f-gst" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.gst)}"></div>
+        <div><label>Discount ₹</label><input id="f-disc" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.discount)}"></div>
+      </div>
+      <label>Payment</label>
+      <div class="seg" id="f-status-seg">
+        ${[['unpaid','Unpaid'],['partial','Part Paid'],['paid','Paid']].map(([k,l])=>`<button type="button" data-st="${k}" class="${(d.status||'unpaid')===k?'on':''}">${l}</button>`).join('')}
+      </div>
+      <input type="hidden" id="f-status" value="${esc(d.status||'unpaid')}">
+      <div id="paid-wrap" style="${(d.status||'unpaid')==='unpaid'?'display:none':''}">
+        <label>Amount Received ₹</label><input id="f-paid" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(d.paidAmount||0)}"></div>`;
+
+  openModal((id?'Edit ':'New ')+DOC_TYPES[kind].label,`
+    <datalist id="prod-list">${prodList}</datalist>
+    <label>Party *</label>
+    <div style="display:flex;gap:8px">
+      <select id="f-party" style="flex:1">${partyOpts||'<option value="">— add a party first —</option>'}</select>
+      <button class="btn ghost" type="button" id="quick-party" style="flex-shrink:0">＋</button>
+    </div>
+    <div class="row">
+      <div><label>${numLabel}</label><input id="f-number" value="${esc(d.number)}"></div>
+      <div><label>Date</label><input id="f-date" type="date" value="${esc(d.date)}"></div>
+    </div>
+    ${extra}
+    <label>Items</label>
+    <div class="items" id="item-rows">${itemHtml}</div>
+    <button class="btn ghost block" type="button" id="add-item" style="margin-top:10px">＋ Add another item</button>
+    ${isChallan?'':`<div class="totals" id="totals"></div>`}
+    <details style="margin-top:14px">
+      <summary style="font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;padding:8px 0">More options (notes & terms)</summary>
+      <label>Notes</label><textarea id="f-notes" placeholder="Remarks...">${esc(d.notes)}</textarea>
+      <label>Terms & Conditions</label><textarea id="f-terms">${esc(d.terms||S().defaultTerms)}</textarea>
+    </details>
+  `,()=>{
+    const items=collectItems(isChallan);
+    if(!items.length){ toast('Add at least one item with qty'); return; }
+    const data={number:document.getElementById('f-number').value.trim(),date:document.getElementById('f-date').value,
+                partyId:document.getElementById('f-party').value,
+                notes:document.getElementById('f-notes').value.trim(),terms:document.getElementById('f-terms').value.trim(),items};
+    if(isChallan){ data.vehicle=document.getElementById('f-vehicle').value.trim(); data.destination=document.getElementById('f-dest').value.trim(); }
+    else{
+      data.gst=Number(document.getElementById('f-gst').value)||0;
+      const de=document.getElementById('f-disc'); data.discount=de?Number(de.value)||0:0;
+      if(kind==='quotation'){ data.validUntil=document.getElementById('f-valid').value; data.status='quotation'; }
+      else{ data.status=document.getElementById('f-status').value;
+            data.paidAmount=data.status==='unpaid'?0:(Number(document.getElementById('f-paid').value)||0); }
+    }
+    let savedId;
+    if(id){ Object.assign(st[kind].find(x=>x.id===id),data); savedId=id; }
+    else{ st[kind].push({...data,id:d.id}); savedId=d.id;
+          if(kind==='bill') S().billCounter++; else if(kind==='quotation') S().quoteCounter++; else S().challanCounter++; }
+    save(); closeModal(); toast(DOC_TYPES[kind].label+' saved');
+    setTimeout(()=>previewDoc(kind,savedId),250);
+  },{saveLabel:'✓ Save & Preview'});
+
+  const rowsEl=document.getElementById('item-rows');
+  document.getElementById('add-item').addEventListener('click',()=>{ rowsEl.insertAdjacentHTML('beforeend',itemRow({},isChallan)); if(!isChallan) recalc(); rowsEl.lastElementChild.querySelector('input').focus(); });
+  document.getElementById('quick-party').addEventListener('click',()=>quickAddParty(kind,id));
+  rowsEl.addEventListener('input',e=>{ if(e.target.matches('input')) recalc(); });
+  rowsEl.addEventListener('change',e=>{
+    const inp=e.target;
+    if(inp.dataset&&inp.dataset.k==='desc'&&!isChallan){
+      const pr=state.products.find(x=>x.name.toLowerCase()===inp.value.trim().toLowerCase());
+      if(pr){ const r=inp.closest('.ir').querySelector('[data-k=rate]'); if(r&&!r.value){ r.value=pr.rate; recalc(); } }
+    }
+  });
+  const seg=document.getElementById('f-status-seg');
+  if(seg) seg.addEventListener('click',e=>{
+    const b=e.target.closest('[data-st]'); if(!b) return;
+    seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    document.getElementById('f-status').value=b.dataset.st;
+    const w=document.getElementById('paid-wrap');
+    w.style.display=b.dataset.st==='unpaid'?'none':'';
+    if(b.dataset.st==='paid'){ const t=currentSubtotalTotals(); document.getElementById('f-paid').value=t.grand.toFixed(2); }
+  });
+  ['f-gst','f-disc'].forEach(i=>{ const el=document.getElementById(i); if(el) el.addEventListener('input',recalc); });
+  if(!isChallan) recalc();
+}
+function quickAddParty(kind,docId){
+  const name=prompt('New party name:'); if(!name||!name.trim()) return;
+  const phone=prompt('WhatsApp number (optional):')||'';
+  const p={id:uid(),name:name.trim(),phone:phone.trim(),gstin:'',address:''};
+  state.parties.push(p); save();
+  const sel=document.getElementById('f-party');
+  sel.insertAdjacentHTML('beforeend',`<option value="${p.id}">${esc(p.name)}</option>`);
+  sel.value=p.id; toast('Party added');
+}
+function collectItems(isChallan){
+  const out=[];
+  document.querySelectorAll('#item-rows .ir').forEach(r=>{
+    const desc=r.querySelector('[data-k=desc]').value.trim();
+    const o={desc,qty:Number(r.querySelector('[data-k=qty]').value)||0};
+    if(!isChallan){ const rt=r.querySelector('[data-k=rate]'); o.rate=rt?Number(rt.value)||0:0; }
+    const pr=state.products.find(x=>x.name.toLowerCase()===desc.toLowerCase());
+    if(pr&&pr.hsn) o.hsn=pr.hsn;
+    if(o.desc&&o.qty>0) out.push(o);
+  });
+  return out;
+}
+function currentSubtotalTotals(){
+  let sub=0;
+  document.querySelectorAll('#item-rows .ir').forEach(r=>{
+    const q=Number(r.querySelector('[data-k=qty]')?.value||0)||0;
+    const rt=Number(r.querySelector('[data-k=rate]')?.value||0)||0;
+    sub+=q*rt;
+  });
+  const gst=sub*(Number(document.getElementById('f-gst')?.value||0)||0)/100;
+  const disc=Number(document.getElementById('f-disc')?.value||0)||0;
+  return {sub,gst,disc,grand:sub+gst-disc};
+}
+function recalc(){
+  let sub=0;
+  document.querySelectorAll('#item-rows .ir').forEach(r=>{
+    const q=Number(r.querySelector('[data-k=qty]')?.value||0)||0;
+    const rt=Number(r.querySelector('[data-k=rate]')?.value||0)||0;
+    const a=r.querySelector('[data-amt]'); if(a) a.textContent=money(q*rt);
+    sub+=q*rt;
+  });
+  const t=document.getElementById('totals'); if(!t) return;
+  const gst=sub*(Number(document.getElementById('f-gst')?.value||0)||0)/100;
+  const disc=Number(document.getElementById('f-disc')?.value||0)||0;
+  t.innerHTML=`<div><span>Subtotal</span><span>${money(sub)}</span></div>
+    <div><span>GST</span><span>${money(gst)}</span></div>
+    ${disc?`<div><span>Discount</span><span>- ${money(disc)}</span></div>`:''}
+    <div class="grand"><span>Total</span><span>${money(sub+gst-disc)}</span></div>`;
+}
+
+/* ================= PAYMENTS ================= */
+function renderPayments(){
+  const list=[...state.payments].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const rows=list.length? list.map(p=>`
+    <div class="row-card"><div class="rc-top">
+      <div><div class="rc-title">${esc(partyName(p.partyId))}</div>
+        <div class="rc-sub">${fmtDate(p.date)} · ${esc(p.mode)}${p.note?' · '+esc(p.note):''}</div></div>
+      <div class="rc-amt" style="color:#166534">${money0(p.amount)}</div></div>
+      <div class="rc-actions"><button class="btn danger sm" data-action="del-pay" data-id="${p.id}">🗑 Delete</button></div>
+    </div>`).join('')
+    : `<div class="empty"><span class="em">💰</span>No payments recorded</div>`;
+  document.getElementById('view').innerHTML=`
+    <div class="toolbar"><button class="btn block" data-action="add-pay">＋ Record Payment</button></div>
+    <div class="list">${rows}</div>`;
+}
+function payForm(presetParty){
+  const opts=state.parties.map(p=>`<option value="${p.id}" ${p.id===presetParty?'selected':''}>${esc(p.name)}</option>`).join('');
+  openModal('Record Payment',`
+    <label>Party</label><select id="p-party">${opts||'<option value="">—</option>'}</select>
+    <label>Amount ₹ *</label><input id="p-amt" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00">
+    <label>Mode</label>
+    <select id="p-mode"><option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Cheque</option><option>Other</option></select>
+    <label>Date</label><input id="p-date" type="date" value="${today()}">
+    <label>Note</label><input id="p-note" placeholder="e.g. against INV-0001">
+  `,()=>{
+    const amt=Number(document.getElementById('p-amt').value)||0;
+    if(!amt){ toast('Enter amount'); return; }
+    state.payments.push({id:uid(),date:document.getElementById('p-date').value,partyId:document.getElementById('p-party').value,
+      amount:amt,mode:document.getElementById('p-mode').value,note:document.getElementById('p-note').value.trim()});
+    save(); closeModal(); toast('Payment recorded '+money0(amt)); setView(_currentView);
+  });
+  setTimeout(()=>document.getElementById('p-amt').focus(),150);
+}
+function settleBill(id){
+  const b=state.bills.find(x=>x.id===id); if(!b) return;
+  const due=billDue(b);
+  openModal('Received against '+esc(b.number),`
+    <div class="stat" style="margin-bottom:8px"><div class="k">Pending</div><div class="v" style="color:#b91c1c">${money0(due)}</div></div>
+    <label>Amount received now ₹</label><input id="sb-amt" type="number" inputmode="decimal" min="0" step="0.01" value="${due.toFixed(2)}">
+    <div class="hint">Full amount marks the bill Paid. A smaller amount marks it Partly Paid.</div>
+  `,()=>{
+    const amt=Number(document.getElementById('sb-amt').value)||0;
+    if(amt<=0){ toast('Enter amount'); return; }
+    const newPaid=billReceived(b)+amt, total=docTotals(b).grand;
+    b.paidAmount=Math.min(newPaid,total);
+    b.status = b.paidAmount>=total-0.5 ? 'paid' : 'partial';
+    save(); closeModal(); toast('Recorded '+money0(amt)); setView(_currentView);
+  },{saveLabel:'✓ Confirm'});
+}
+
+/* ================= SETTINGS ================= */
+function renderSettings(){
+  const s=S();
+  document.getElementById('view').innerHTML=`
+    <div class="panel"><h3>🏪 Shop Details</h3>
+      <label>Business Name</label><input id="s-name" value="${esc(s.businessName)}">
+      <label>Address</label><textarea id="s-addr">${esc(s.address)}</textarea>
+      <div class="row">
+        <div><label>GSTIN</label><input id="s-gstin" value="${esc(s.gstin)}"></div>
+        <div><label>Phone</label><input id="s-phone" type="tel" value="${esc(s.phone)}"></div>
+      </div>
+      <label>Default GST %</label><input id="s-gst" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(s.gstPercent)}">
+    </div>
+    <div class="panel"><h3>🏦 Bank / UPI (printed on bills)</h3>
+      <label>Account Holder</label><input id="s-accname" value="${esc(s.accountName)}">
+      <div class="row">
+        <div><label>Bank Name</label><input id="s-bank" value="${esc(s.bankName)}"></div>
+        <div><label>Account No.</label><input id="s-accno" value="${esc(s.accountNo)}"></div>
+      </div>
+      <div class="row">
+        <div><label>IFSC</label><input id="s-ifsc" value="${esc(s.ifsc)}"></div>
+        <div><label>UPI ID</label><input id="s-upi" value="${esc(s.upi)}" placeholder="saaj@upi"></div>
+      </div>
+    </div>
+    <div class="panel"><h3>🔢 Numbering</h3>
+      <div class="row"><div><label>Bill Prefix</label><input id="s-bp" value="${esc(s.billPrefix)}"></div>
+        <div><label>Next Bill #</label><input id="s-bc" type="number" value="${esc(s.billCounter)}"></div></div>
+      <div class="row"><div><label>Quotation Prefix</label><input id="s-qp" value="${esc(s.quotePrefix)}"></div>
+        <div><label>Next Quotation #</label><input id="s-qc" type="number" value="${esc(s.quoteCounter)}"></div></div>
+      <div class="row"><div><label>Challan Prefix</label><input id="s-cp" value="${esc(s.challanPrefix)}"></div>
+        <div><label>Next Challan #</label><input id="s-cc" type="number" value="${esc(s.challanCounter)}"></div></div>
+    </div>
+    <div class="panel"><h3>📜 Default Terms</h3>
+      <textarea id="s-terms" style="min-height:110px">${esc(s.defaultTerms)}</textarea></div>
+    <button class="btn block" id="s-save" style="margin-bottom:16px">💾 Save Settings</button>
+    <div class="panel"><h3>🔐 Change PIN</h3>
+      <div class="row"><div><label>Current PIN</label><input id="s-curpin" type="password" inputmode="numeric"></div>
+        <div><label>New PIN</label><input id="s-newpin" type="password" inputmode="numeric"></div></div>
+      <label>Confirm New PIN</label><input id="s-newpin2" type="password" inputmode="numeric">
+      <div id="pin-msg" style="font-size:12px;min-height:16px;margin:8px 0"></div>
+      <button class="btn block ghost" id="s-changepin">Change PIN</button>
+    </div>
+    <div class="panel"><h3>💾 Backup</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost" id="s-backup" style="flex:1">⬇ Backup file</button>
+        <button class="btn ghost" id="s-restore" style="flex:1">⬆ Restore file</button>
+        <button class="btn ghost" id="s-lock" style="flex:1">🔒 Lock app</button>
+      </div>
+      <div class="hint">Backups are AES‑256 encrypted — restore needs the same PIN.</div>
+    </div>`;
+  document.getElementById('s-save').addEventListener('click',()=>{
+    Object.assign(s,{
+      businessName:document.getElementById('s-name').value.trim()||'Business',
+      address:document.getElementById('s-addr').value.trim(),
+      gstin:document.getElementById('s-gstin').value.trim(),
+      phone:document.getElementById('s-phone').value.trim(),
+      gstPercent:Number(document.getElementById('s-gst').value)||0,
+      accountName:document.getElementById('s-accname').value.trim(),
+      bankName:document.getElementById('s-bank').value.trim(),
+      accountNo:document.getElementById('s-accno').value.trim(),
+      ifsc:document.getElementById('s-ifsc').value.trim(),
+      upi:document.getElementById('s-upi').value.trim(),
+      defaultTerms:document.getElementById('s-terms').value,
+      billPrefix:document.getElementById('s-bp').value.trim()||'INV', billCounter:Number(document.getElementById('s-bc').value)||1,
+      quotePrefix:document.getElementById('s-qp').value.trim()||'QUO', quoteCounter:Number(document.getElementById('s-qc').value)||1,
+      challanPrefix:document.getElementById('s-cp').value.trim()||'CHL', challanCounter:Number(document.getElementById('s-cc').value)||1
+    });
+    save(); toast('Settings saved'); setView('home');
+  });
+  document.getElementById('s-backup').addEventListener('click',doBackup);
+  document.getElementById('s-restore').addEventListener('click',()=>document.getElementById('restore-file').click());
+  document.getElementById('s-lock').addEventListener('click',lockNow);
+  document.getElementById('s-changepin').addEventListener('click',async()=>{
+    const msg=document.getElementById('pin-msg');
+    const cur=document.getElementById('s-curpin').value.trim();
+    const n1=document.getElementById('s-newpin').value.trim(), n2=document.getElementById('s-newpin2').value.trim();
+    if(cur!==s.pin){ msg.style.color='#b91c1c'; msg.textContent='Current PIN is incorrect.'; return; }
+    if(n1.length<4||!/^\d+$/.test(n1)){ msg.style.color='#b91c1c'; msg.textContent='New PIN must be at least 4 digits.'; return; }
+    if(n1!==n2){ msg.style.color='#b91c1c'; msg.textContent='New PINs do not match.'; return; }
+    currentSalt=bufToB64(crypto.getRandomValues(new Uint8Array(16)).buffer);
+    currentKey=await deriveKey(n1,currentSalt); s.pin=n1;
+    await flushSave(); await saveSession();
+    msg.style.color='#166534'; msg.textContent='✓ PIN changed and all data re-encrypted.';
+    ['s-curpin','s-newpin','s-newpin2'].forEach(i=>document.getElementById(i).value='');
+  });
+}
+
+/* ================= DOCUMENT HTML ================= */
+function buildDocHtml(kind,id){
+  const d=DOC_STORE()[kind].find(x=>x.id===id); if(!d) return null;
+  const s=S(), p=partyById(d.partyId);
+  const isQuot=kind==='quotation', isChal=kind==='challan';
+  const title=isChal?'DELIVERY CHALLAN':(isQuot?'QUOTATION':'TAX INVOICE');
+  let rows='';
+  (d.items||[]).forEach((it,i)=>{ const amt=isChal?0:(Number(it.qty)||0)*(Number(it.rate)||0);
+    rows+=`<tr><td>${i+1}</td><td>${esc(it.desc)}${it.hsn?`<div style="font-size:10px;color:#64748b">HSN: ${esc(it.hsn)}</div>`:''}</td><td style="text-align:right">${it.qty}</td>${isChal?'':`<td style="text-align:right">${money(it.rate)}</td><td style="text-align:right">${money(amt)}</td>`}</tr>`; });
+  const t=docTotals(d);
+  const due=kind==='bill'?billDue(d):0;
+  const totals=isChal?'':`<div class="rt">
+      <div><span>Subtotal</span><span>${money(t.sub)}</span></div>
+      <div><span>GST (${d.gst||0}%)</span><span>${money(t.gst)}</span></div>
+      ${t.disc?`<div><span>Discount</span><span>- ${money(t.disc)}</span></div>`:''}
+      <div class="g"><span>Grand Total</span><span>${money(t.grand)}</span></div>
+      ${kind==='bill'&&billReceived(d)>0.005?`<div><span>Received</span><span>${money(billReceived(d))}</span></div><div class="g"><span>Balance Due</span><span>${money(due)}</span></div>`:''}
+    </div><div class="words"><b>Amount in words:</b> ${esc(amountInWords(t.grand))}</div>`;
+  const extra=isChal?`<div class="pt"><div><b>Vehicle</b>${esc(d.vehicle)||'—'}</div><div><b>Destination</b>${esc(d.destination)||'—'}</div></div>`
+    : isQuot?`<div class="pt"><div><b>Valid Until</b>${fmtDate(d.validUntil)||'—'}</div><div></div></div>`
+    : `<div class="pt"><div><b>Status</b>${({unpaid:'Unpaid',partial:'Partially Paid',paid:'Paid'})[d.status]||''}</div><div><b>Received</b>${money(billReceived(d))}</div></div>`;
+  const bank=(s.bankName||s.accountNo||s.ifsc||s.upi)&&!isChal?`
+    <div class="bankbox"><b>Bank Details</b><br>${esc(s.accountName||s.businessName)}${s.bankName?' · '+esc(s.bankName):''}${s.accountNo?' · A/c No. '+esc(s.accountNo):''}${s.ifsc?' · IFSC '+esc(s.ifsc):''}${s.upi?'<br>UPI: '+esc(s.upi):''}</div>`:'';
+  const terms=(d.terms||s.defaultTerms||'').trim();
+  const termsHtml=terms?`<div class="notes"><b>Terms & Conditions:</b><ul>${terms.split('\n').filter(x=>x.trim()).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'';
+  return `<div class="doc">
+      <div class="dh">
+        <div><div class="co">${esc(s.businessName)}</div>
+          <div style="font-size:12px;color:#334">${esc(s.address)}</div>
+          ${s.gstin?`<div style="font-size:12px;color:#334">GSTIN: ${esc(s.gstin)}</div>`:''}
+          ${s.phone?`<div style="font-size:12px;color:#334">Ph: ${esc(s.phone)}</div>`:''}</div>
+        <div class="meta"><div style="font-size:16px;font-weight:800;color:#0f766e">${title}</div>
+          <div><b>No:</b> ${esc(d.number)}</div><div><b>Date:</b> ${fmtDate(d.date)}</div></div>
+      </div>
+      <div class="pt"><div><b>Bill To</b>${esc(p.name||'—')}${p.address?`<br>${esc(p.address)}`:''}${p.gstin?`<br>GSTIN: ${esc(p.gstin)}`:''}${p.phone?`<br>Ph: ${esc(p.phone)}`:''}</div><div></div></div>
+      ${extra}
+      <table><thead><tr><th style="width:32px">#</th><th>Description</th><th style="text-align:right">Qty</th>${isChal?'':`<th style="text-align:right">Rate</th><th style="text-align:right">Amount</th>`}</tr></thead><tbody>${rows}</tbody></table>
+      ${totals}${bank}${termsHtml}
+      ${d.notes?`<div class="notes"><b>Notes:</b> ${esc(d.notes)}</div>`:''}
+      <div class="sig"><div>Receiver's Signature</div><div>For ${esc(s.businessName)}</div></div>
+    </div>`;
+}
+function previewDoc(kind,id){
+  const html=buildDocHtml(kind,id); if(!html) return;
+  const d=DOC_STORE()[kind].find(x=>x.id===id);
+  document.getElementById('print-area').innerHTML=html;
+  openModal(DOC_TYPES[kind].label+' · '+esc(d?d.number:''),`<div class="preview-doc">${html}</div>`,null,
+    {wide:true,hideSave:true,extraButtons:`
+      <button class="btn ghost" data-action="do-print">🖨 Print</button>
+      <button class="btn" data-action="savepdf-${kind}" data-id="${id}">⬇ Save PDF</button>
+      <button class="btn wa" data-action="wa-${kind}" data-id="${id}">💬 Send on WhatsApp</button>`});
+}
+
+/* ================= PDF ENGINE ================= */
+function pdfFileName(kind,d){
+  const t={bill:'Invoice',quotation:'Quotation',challan:'Challan'}[kind]||'Document';
+  return (t+'-'+(d.number||'')+'-'+partyName(d.partyId)).replace(/[^\w\-]+/g,'_')+'.pdf';
+}
+async function htmlToPdfBlob(html){
+  if(!window.jspdf||!window.html2canvas) throw new Error('PDF library not loaded');
+  const holder=document.createElement('div');
+  holder.style.cssText='position:fixed;left:-10000px;top:0;width:800px;background:#fff;padding:20px;z-index:-1';
+  holder.innerHTML=html;
+  document.body.appendChild(holder);
+  try{
+    const canvas=await html2canvas(holder,{scale:2,backgroundColor:'#ffffff',useCORS:true});
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF('p','mm','a4');
+    const pw=pdf.internal.pageSize.getWidth(), ph=pdf.internal.pageSize.getHeight();
+    const iw=pw-16, ih=canvas.height*iw/canvas.width;
+    const img=canvas.toDataURL('image/jpeg',0.92);
+    if(ih<=ph-16){ pdf.addImage(img,'JPEG',8,8,iw,ih); }
+    else{
+      let left=ih, pos=8;
+      pdf.addImage(img,'JPEG',8,pos,iw,ih); left-=(ph-16);
+      while(left>0){ pos=left-ih+8; pdf.addPage(); pdf.addImage(img,'JPEG',8,pos,iw,ih); left-=(ph-16); }
+    }
+    return pdf.output('blob');
+  } finally{ holder.remove(); }
+}
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),4000);
+}
+async function saveDocPdf(kind,id){
+  const d=DOC_STORE()[kind].find(x=>x.id===id); if(!d) return;
+  toast('Making PDF…');
+  try{ const blob=await htmlToPdfBlob(buildDocHtml(kind,id)); downloadBlob(blob,pdfFileName(kind,d)); toast('PDF saved'); }
+  catch(e){ toast('PDF failed — use Print instead'); }
+}
+async function saveLedgerPdf(pid){
+  const p=partyById(pid);
+  toast('Making PDF…');
+  try{ const blob=await htmlToPdfBlob(buildLedgerHtml(pid));
+       downloadBlob(blob,('Statement-'+(p.name||'')).replace(/[^\w\-]+/g,'_')+'.pdf'); toast('PDF saved'); }
+  catch(e){ toast('PDF failed — use Print instead'); }
+}
+
+/* ================= WHATSAPP ================= */
+function waNumber(phone){
+  let n=String(phone||'').replace(/\D/g,'');
+  if(!n) return '';
+  if(n.length===10) n='91'+n;
+  if(n.length===11&&n.startsWith('0')) n='91'+n.slice(1);
+  return n;
+}
+function waText(kind,d){
+  const s=S(), t=docTotals(d).grand, p=partyById(d.partyId);
+  const hi='Dear '+(p.name||'Sir/Madam')+',\n\n';
+  if(kind==='challan') return hi+'Delivery Challan '+d.number+' dated '+fmtDate(d.date)+' from '+s.businessName+' is attached.\n\nThank you!';
+  if(kind==='quotation') return hi+'Please find our Quotation '+d.number+' dated '+fmtDate(d.date)+'.\nTotal: '+money0(t)+(d.validUntil?'\nValid until: '+fmtDate(d.validUntil):'')+'\n\nRegards,\n'+s.businessName;
+  const due=billDue(d);
+  return hi+'Invoice '+d.number+' dated '+fmtDate(d.date)+'\nAmount: '+money0(t)+
+    (due>0.5?'\nBalance due: '+money0(due):'\nStatus: Paid — thank you!')+
+    (s.upi&&due>0.5?'\nUPI: '+s.upi:'')+'\n\nRegards,\n'+s.businessName;
+}
+function waReminderText(d){
+  const s=S(), p=partyById(d.partyId), due=billDue(d);
+  return 'Dear '+(p.name||'Sir/Madam')+',\n\nGentle reminder: Invoice '+d.number+' dated '+fmtDate(d.date)+
+    ' has a pending balance of '+money0(due)+'.'+(s.upi?'\nYou can pay via UPI: '+s.upi:'')+
+    '\n\nKindly arrange the payment.\nRegards,\n'+s.businessName;
+}
+function waLedgerText(pid){
+  const s=S(), p=partyById(pid), st=partyStats(pid);
+  return 'Dear '+(p.name||'Sir/Madam')+',\n\nAccount statement as on '+fmtDate(today())+
+    '\nTotal Billed: '+money0(st.billed)+'\nTotal Received: '+money0(st.received)+
+    '\nOutstanding: '+money0(st.outstanding)+(s.upi&&st.outstanding>0.5?'\nUPI: '+s.upi:'')+
+    '\n\nDetailed statement PDF is attached.\nRegards,\n'+s.businessName;
+}
+function openWa(phone,text){
+  const n=waNumber(phone);
+  const url=n?`https://wa.me/${n}?text=${encodeURIComponent(text)}`:`https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url,'_blank');
+}
+/* Share the PDF itself where the device supports it, else send text + download the PDF */
+async function shareOnWhatsApp({html,fileName,text,phone}){
+  let blob=null;
+  if(html){ try{ toast('Preparing PDF…'); blob=await htmlToPdfBlob(html); }catch(e){ blob=null; } }
+  if(blob){
+    try{
+      const file=new File([blob],fileName,{type:'application/pdf'});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],text});
+        return;
+      }
+    }catch(e){ if(e && e.name==='AbortError') return; }
+    downloadBlob(blob,fileName);
+    toast('PDF saved — attach it in WhatsApp');
+  }
+  openWa(phone,text);
+}
+async function waSendDoc(kind,id){
+  const d=DOC_STORE()[kind].find(x=>x.id===id); if(!d) return;
+  const p=partyById(d.partyId);
+  await shareOnWhatsApp({html:buildDocHtml(kind,id),fileName:pdfFileName(kind,d),text:waText(kind,d),phone:p.phone});
+}
+async function waSendLedger(pid){
+  const p=partyById(pid);
+  await shareOnWhatsApp({html:buildLedgerHtml(pid),
+    fileName:('Statement-'+(p.name||'')).replace(/[^\w\-]+/g,'_')+'.pdf',
+    text:waLedgerText(pid), phone:p.phone});
+}
+
+/* ================= BACKUP / RESTORE ================= */
+async function doBackup(){
+  if(!currentKey){ toast('Unlock first'); return; }
+  const b=await encryptVault(state,currentKey,currentSalt); b.updatedAt=Date.now();
+  const data=JSON.stringify({app:'saaj-saaries',note:'Encrypted AES-256 vault',exportedAt:new Date().toISOString(),...b},null,2);
+  const d=new Date(), pad=n=>(n<10?'0':'')+n;
+  downloadBlob(new Blob([data],{type:'application/json'}),`saaj-backup-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}.json`);
+  toast('Backup downloaded');
+}
+document.getElementById('btn-backup').addEventListener('click',doBackup);
+document.getElementById('btn-restore').addEventListener('click',()=>document.getElementById('restore-file').click());
+document.getElementById('restore-file').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=async()=>{ try{
+    const data=JSON.parse(r.result);
+    let bundle=null,plain=null;
+    if(data&&data.salt&&data.ct) bundle=data;
+    else if(data&&data.vault&&data.vault.ct) bundle=data.vault;
+    else if(data&&data.settings) plain=data;
+    else throw new Error('unknown');
+    if(bundle){ const obj=await decryptVault(bundle,currentKey);
+      if(!confirm('Restore will REPLACE all current data. Continue?')) return;
+      state=mergeData(obj);
+    }else{ if(!confirm('Old plaintext backup — replace all data and re-encrypt?')) return; state=mergeData(plain); }
+    await flushSave(); toast('Restore complete'); setView('home');
+  }catch(err){ alert('Restore failed: invalid backup, or the PIN does not match this vault.'); }
+  e.target.value=''; };
+  r.readAsText(f);
+});
+
+/* ================= MODAL ================= */
+function openModal(title,bodyHtml,onSave,opts){
+  const o=opts||{}; const m=document.getElementById('modal');
+  m.className='modal'+(o.wide?' wide':'');
+  m.innerHTML=`<header><h3>${title}</h3><button class="x" id="modal-x">×</button></header>
+    <div class="body">${bodyHtml}</div>
+    <footer>${o.extraButtons||''}
+      <button class="btn ghost" id="modal-cancel">${o.hideSave?'Close':'Cancel'}</button>
+      ${o.hideSave?'':`<button class="btn" id="modal-save">${esc(o.saveLabel||'💾 Save')}</button>`}</footer>`;
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow='hidden';
+  document.getElementById('modal-x').onclick=closeModal;
+  document.getElementById('modal-cancel').onclick=closeModal;
+  const sv=document.getElementById('modal-save'); if(sv) sv.onclick=onSave||closeModal;
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('modal').innerHTML='';
+  document.getElementById('print-area').innerHTML='';
+  document.body.style.overflow='';
+}
+document.getElementById('overlay').addEventListener('click',e=>{ if(e.target.id==='overlay') closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+function moreMenu(){
+  const items=[['quotations','✍️','Quotations'],['challans','🚚','Delivery Challans'],['payments','💰','Payments'],
+               ['products','🧵','Products'],['dues','⏰','Due Bills'],['settings','⚙️','Settings']];
+  openModal('More',`<div class="tiles" style="margin:0">
+    ${items.map(([v,e,l])=>`<button class="tile" data-view-go="${v}"><span class="em">${e}</span><span class="tl">${l}</span></button>`).join('')}
+    <button class="tile" data-action="do-backup"><span class="em">💾</span><span class="tl">Backup</span></button>
+    <button class="tile" data-action="do-lock"><span class="em">🔒</span><span class="tl">Lock App</span></button>
+  </div>`,null,{hideSave:true});
+}
+
+/* ================= ACTIONS ================= */
+document.addEventListener('click',e=>{
+  const go=e.target.closest('[data-view-go]');
+  if(go){ closeModal(); setView(go.dataset.viewGo); return; }
+  const b=e.target.closest('[data-action]'); if(!b) return;
+  const a=b.dataset.action, id=b.dataset.id;
+  switch(a){
+    case 'more-menu': moreMenu(); break;
+    case 'do-backup': closeModal(); doBackup(); break;
+    case 'do-lock': closeModal(); lockNow(); break;
+    case 'do-print': window.print(); break;
+    case 'add-party': partyForm(); break;
+    case 'edit-party': partyForm(id); break;
+    case 'del-party': if(confirm('Delete this party?')){ state.parties=state.parties.filter(x=>x.id!==id); save(); setView(_currentView);} break;
+    case 'wa-party': { const p=partyById(id); openWa(p.phone,'Dear '+(p.name||'')+','); break; }
+    case 'ledger-party': partyLedger(id); break;
+    case 'ledger-pdf': closeModal(); setTimeout(()=>previewLedger(id),200); break;
+    case 'ledger-savepdf': saveLedgerPdf(id); break;
+    case 'ledger-wa': waSendLedger(id); break;
+    case 'pay-for': closeModal(); setTimeout(()=>payForm(id),200); break;
+    case 'add-product': productForm(); break;
+    case 'edit-product': productForm(id); break;
+    case 'del-product': if(confirm('Delete this product?')){ state.products=state.products.filter(x=>x.id!==id); save(); renderProducts();} break;
+    case 'add-bill': docForm('bill'); break;
+    case 'edit-bill': docForm('bill',id); break;
+    case 'del-bill': if(confirm('Delete this bill?')){ state.bills=state.bills.filter(x=>x.id!==id); save(); setView(_currentView);} break;
+    case 'pdf-bill': previewDoc('bill',id); break;
+    case 'savepdf-bill': saveDocPdf('bill',id); break;
+    case 'wa-bill': waSendDoc('bill',id); break;
+    case 'wa-remind': { const d=state.bills.find(x=>x.id===id); if(d) openWa(partyById(d.partyId).phone,waReminderText(d)); break; }
+    case 'settle-bill': settleBill(id); break;
+    case 'add-quotation': docForm('quotation'); break;
+    case 'edit-quotation': docForm('quotation',id); break;
+    case 'del-quotation': if(confirm('Delete this quotation?')){ state.quotations=state.quotations.filter(x=>x.id!==id); save(); setView(_currentView);} break;
+    case 'pdf-quotation': previewDoc('quotation',id); break;
+    case 'savepdf-quotation': saveDocPdf('quotation',id); break;
+    case 'wa-quotation': waSendDoc('quotation',id); break;
+    case 'add-challan': docForm('challan'); break;
+    case 'edit-challan': docForm('challan',id); break;
+    case 'del-challan': if(confirm('Delete this challan?')){ state.challans=state.challans.filter(x=>x.id!==id); save(); setView(_currentView);} break;
+    case 'pdf-challan': previewDoc('challan',id); break;
+    case 'savepdf-challan': saveDocPdf('challan',id); break;
+    case 'wa-challan': waSendDoc('challan',id); break;
+    case 'add-pay': payForm(); break;
+    case 'del-pay': if(confirm('Delete this payment?')){ state.payments=state.payments.filter(x=>x.id!==id); save(); setView(_currentView);} break;
+  }
+});
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-del]')){
+    const rows=document.querySelectorAll('#item-rows .ir');
+    if(rows.length<=1){ const r=e.target.closest('.ir'); r.querySelectorAll('input').forEach(i=>i.value=''); }
+    else e.target.closest('.ir').remove();
+    recalc();
+  }
+});
+
+/* ================= BOOT ================= */
+async function init(){
+  if(!window.crypto||!crypto.subtle){
+    document.getElementById('pin-err').textContent='This browser does not support encryption. Use a modern browser.';
+    return;
+  }
+  try{ vaultLocal=JSON.parse(store.get(DB_KEY)); }catch(e){ vaultLocal=null; }
+  await loadFirebase();
+  if(firebaseOk){ vaultRemote=await fetchRemote(); subscribeRemote(handleRemote); }
+  try{
+    const sess=JSON.parse(sstore.get(AUTH_KEY)||'null');
+    const bundle=(vaultLocal&&vaultLocal.salt)?vaultLocal:(vaultRemote&&vaultRemote.vault);
+    if(sess&&bundle&&sess.salt===bundle.salt){
+      const key=await crypto.subtle.importKey('raw',b64ToBuf(sess.key),'AES-GCM',false,['encrypt','decrypt']);
+      state=mergeData(await decryptVault(bundle,key));
+      currentKey=key; currentSalt=bundle.salt;
+      _lastLocalAt=Number(vaultLocal&&vaultLocal.updatedAt)||0;
+      showApp(); checkRemoteAfterUnlock(); return;
+    }
+  }catch(e){ sstore.remove(AUTH_KEY); }
+  showPin();
+}
+init();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a362da87ae6274eb',t:'MTc4ODU4NjM0OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
